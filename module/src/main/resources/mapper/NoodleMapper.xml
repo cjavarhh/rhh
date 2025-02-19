@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itrhh.module.mapper.NoodleMapper">
+<insert id="noodleInsert"
+        parameterType="com.itrhh.module.entity.Noodle">
+insert into noodle (noodleName,price,noodleImages,content,noodleWeight,coverImages)
+value  (#{Noodle.noodleName},#{Noodle.price},#{Noodle.noodleWeight},{Noodole.coverImages},{Noodle.content},#{Noodle.noodleImages})
+</insert>
+    <update id="noodleUpdate"
+            parameterType="com.itrhh.module.entity.Noodle">
+update noodle set name =#{noodle.name},
+                  content=#{noodle.content }
+
+
+    </update>
+    <delete id="noodleDelete"
+    parameterType="com.itrhh.module.entity.Noodle">
+update noodle set id_delete=1 where id=#{id}
+
+    </delete>
+</mapper>
