@@ -17,6 +17,7 @@ import java.io.FileReader;
 import java.math.BigInteger;
 import java.sql.DatabaseMetaData;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -27,17 +28,27 @@ import java.util.List;
  * @Version 1.0.0
  */
 @RestController
-public class AppController {
+public class NoodleController {
+    String dbCoverImage="url1$url2$url3";
+    String[] imageArray=dbCoverImage.split("\\$");
+    List<String>imageList= Arrays.asList(imageArray);
     @Autowired
     private AppServiceImpl appService;
     @RequestMapping("/noodle/info")
     public NoodleInfoVo noodleInfo(@RequestParam(name = "noodleId")BigInteger noodleId){
+       // String dbCoverImage="url1$url2$url3";
+       // String[] imageArray=dbCoverImage.split("\\$");
+        //List<String>imageList= Arrays.asList(imageArray);
+
+
         Noodle noodleInfoById = appService.getNoodleInfoById(noodleId);
         NoodleInfoVo noodleInfoVo = new NoodleInfoVo();
         if(noodleInfoById==null){
             System.out.println("代码有问题·");
+            return null;
         }
-        noodleInfoVo.setNoodleImages(noodleInfoById.getNoodleImages());
+        noodleInfoVo.setCoverImages(imageList);
+        noodleInfoVo.setNoodleImage(noodleInfoById.getNoodleImage());
         noodleInfoVo.setNoodleName(noodleInfoById.getNoodleName());
         noodleInfoVo.setContent(noodleInfoById.getContent());
         noodleInfoVo.setPrice(noodleInfoById.getPrice());
@@ -50,10 +61,11 @@ public class AppController {
         ArrayList<NoodleAppListVo> noodleAppListVos = new ArrayList<>();
         NoodleAppListVo noodleAppListVo = new NoodleAppListVo();
         for (Noodle noodle : allNoodleInfo) {
+            noodleAppListVo.setCoverImages(imageList);
+            noodleAppListVo.setNoodleImage(noodle.getNoodleImage());
             noodleAppListVo.setNoodleId(noodle.getId());
             noodleAppListVo.setNoodleName(noodle.getNoodleName());
             noodleAppListVo.setPrice(noodle.getPrice());
-            noodleAppListVo.setFeedImage(noodle.getCoverImage());
             noodleAppListVos.add(noodleAppListVo);
         }
         return noodleAppListVos ;

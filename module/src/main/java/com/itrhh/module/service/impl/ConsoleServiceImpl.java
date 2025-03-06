@@ -19,19 +19,26 @@ public class ConsoleServiceImpl implements ConsoleService {
     @Resource
     private NoodleMapper mapper;
 
-    public int createNoodle(String name,Integer price, String[] noodleImages,String content,Integer weight ,String coverImage){
+    public int createNoodle(BigInteger id,String name,Integer price, String noodleImage,String content,Integer weight ,List coverImages){
         int timestamp =(int) (System.currentTimeMillis()/100);
         Noodle noodle = new Noodle();
+        noodle.setId(id);
         noodle.setNoodleName(name);
         noodle.setPrice(price);
         noodle.setNoodleWeight(weight);
-        noodle.setNoodleImages(noodleImages);
+        noodle.setNoodleImage(noodleImage);
         noodle.setContent(content);
-        noodle.setCoverImage(coverImage);
+        noodle.setCoverImages(coverImages);
+        noodle.setCreateTime(timestamp);
+        noodle.setUpdateTime(timestamp);
+        noodle.setIsDeleted(0);
         return  mapper.noodleInsert(noodle);
 
     }
-    public int updateNoodle(BigInteger id,String name,Integer price,String[] noodleImages,String content,Integer weight,String coverImage){
+
+
+
+    public int updateNoodle(BigInteger id, String name, Integer price, String noodleImage, String content, Integer weight, List coverImages){
 
         int timestamp =(int) (System.currentTimeMillis()/100);
         Noodle noodle = new Noodle();
@@ -40,8 +47,11 @@ public class ConsoleServiceImpl implements ConsoleService {
         noodle.setNoodleWeight(weight);
         noodle.setPrice(price);
         noodle.setContent(content);
-        noodle.setNoodleImages(noodleImages);
-        noodle.setCoverImage(coverImage);
+        noodle.setNoodleImage(noodleImage);
+        noodle.setCoverImages(coverImages);
+        noodle.setCreateTime(timestamp);
+        noodle.setUpdateTime(timestamp);
+        noodle.setIsDeleted(0);
         return mapper.noodleUpdate(noodle);
     }
 public int deleteNoodle(BigInteger id){

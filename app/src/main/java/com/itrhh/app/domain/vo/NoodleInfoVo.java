@@ -2,6 +2,8 @@ package com.itrhh.app.domain.vo;
 
 import lombok.Data;
 
+import java.util.List;
+
 /**
  * @Classname NoodleAppVo
  * @Description TODO
@@ -11,9 +13,10 @@ import lombok.Data;
  */
 @Data
 public class NoodleInfoVo {
-    String noodleName;
-    String[] noodleImages;
-    int price;
-    int weight;
-    String content;
+    private String noodleName;
+    private List coverImages;
+    private String noodleImage;
+    private int price;
+    private int weight;
+    private String content;
 }

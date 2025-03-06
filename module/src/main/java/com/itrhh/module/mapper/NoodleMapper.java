@@ -18,7 +18,7 @@ import java.util.List;
 @Mapper
 public interface NoodleMapper {
     //查询编号面条信息
-    @Select("select *from noodle where id=#{id}")
+    @Select("select *from noodle where id=#{id}" )
     Noodle getById(@Param("id")BigInteger id);
 
     //查询所有面条信息

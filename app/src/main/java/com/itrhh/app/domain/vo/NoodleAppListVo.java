@@ -4,6 +4,7 @@ import lombok.Data;
 
 import javax.annotation.sql.DataSourceDefinition;
 import java.math.BigInteger;
+import java.util.List;
 
 /**
  * @Classname NooodleAppListVo
@@ -14,9 +15,10 @@ import java.math.BigInteger;
  */
 @Data
 public class NoodleAppListVo {
-    BigInteger noodleId;
-    String feedImage;
-    String noodleName;
-    int price;
+   private BigInteger noodleId;
+    private String noodleImage;
+    private List coverImages;
+   private String noodleName;
+   private int price;
 
 }

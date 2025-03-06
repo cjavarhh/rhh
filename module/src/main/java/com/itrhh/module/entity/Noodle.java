@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 import java.math.BigInteger;
+import java.util.List;
 
 /**
  * @Classname Noodle
@@ -21,15 +22,21 @@ public class Noodle {
 
     private String noodleName;
 
-    private  int price;
+    private  Integer price;
 
-    private String[] noodleImages;
+    private String noodleImage;
 
     private String content;
 
-    private  int noodleWeight;
+    private  Integer noodleWeight;
 
-    private String coverImage;
+    private List coverImages;//轮播图
+
+    private Integer createTime;
+
+    private Integer updateTime;
+
+    private Integer isDeleted;
 
 
 }
