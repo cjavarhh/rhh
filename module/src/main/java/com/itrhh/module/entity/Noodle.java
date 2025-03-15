@@ -30,7 +30,7 @@ public class Noodle {
 
     private  Integer noodleWeight;
 
-    private List coverImages;//轮播图
+    private String coverImages;//轮播图
 
     private Integer createTime;
 

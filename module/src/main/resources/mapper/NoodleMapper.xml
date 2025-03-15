@@ -4,18 +4,26 @@
 <insert id="noodleInsert"
         parameterType="com.itrhh.module.entity.Noodle">
 insert into noodle (noodleName,price,noodleImages,content,noodleWeight,coverImages)
-value  (#{Noodle.noodleName},#{Noodle.price},#{Noodle.noodleWeight},{Noodole.coverImages},{Noodle.content},#{Noodle.noodleImages})
+value  (#{Noodle.noodleName},#{Noodle.price},#{Noodle.noodleWeight},#{Noodole.coverImages},#{Noodle.content},#{noodle.noodleImage},#{noodle.updateTime},
+    #{noodle.createTime},#{noodle.isDeleted})
 </insert>
     <update id="noodleUpdate"
             parameterType="com.itrhh.module.entity.Noodle">
 update noodle set name =#{noodle.name},
-                  content=#{noodle.content }
+                  content=#{noodle.content },
+                  price=#{noodle.price},
+                  weight=#{noodle.noodleWeight},
+                  coverImages=#{noodle.coverImages},
+                  noodleImages=#{noodle.noodleImage},
+                  update_time=#{noodle.updateTime}
+where id=#{noodle.id}
+
 
 
     </update>
-    <delete id="noodleDelete"
+    <update id="noodleDelete"
     parameterType="com.itrhh.module.entity.Noodle">
-update noodle set id_delete=1 where id=#{id}
+update noodle set id_delete=1,update_time=NOW() where id=#{id}
 
-    </delete>
+    </update>
 </mapper>

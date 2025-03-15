@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 
 import java.math.BigInteger;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -18,11 +19,11 @@ import java.util.List;
 @Mapper
 public interface NoodleMapper {
     //查询编号面条信息
-    @Select("select *from noodle where id=#{id}" )
+    @Select("select *from noodle where id=#{id} and is_deleted=0")
     Noodle getById(@Param("id")BigInteger id);
 
     //查询所有面条信息
-    @Select("select *from noodle")
+    @Select("select *from noodle where is_deleted=0")
     List<Noodle> getAll();
 
 

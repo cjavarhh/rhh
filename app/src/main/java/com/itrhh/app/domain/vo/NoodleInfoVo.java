@@ -14,9 +14,8 @@ import java.util.List;
 @Data
 public class NoodleInfoVo {
     private String noodleName;
-    private List coverImages;
-    private String noodleImage;
-    private int price;
-    private int weight;
+    private List<String> noodleImages;
+    private Integer price;
+    private Integer weight;
     private String content;
 }

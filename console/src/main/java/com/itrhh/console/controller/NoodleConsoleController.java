@@ -1,6 +1,6 @@
 package com.itrhh.console.controller;
 
-import com.itrhh.module.service.impl.ConsoleServiceImpl;
+import com.itrhh.module.service.ConsoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,31 +17,30 @@ import java.util.List;
  * @Version 1.0.0
  */
 @RestController
-public class ConsoleController {
+public class NoodleConsoleController {
     @Autowired
-    private ConsoleServiceImpl consoleService;
+    private ConsoleService consoleService;
 
     @RequestMapping("/noodle/create")
-    public String noodleCreate(@RequestParam(name = "id")BigInteger id,
-                               @RequestParam(name = "name") String name,
-                               @RequestParam(name = "price") int price,
-                               @RequestParam(name ="weight" ) int weight,
-                               @RequestParam(name = "coverImage") List coverImages,
+    public String noodleCreate(@RequestParam(name = "name") String name,
+                               @RequestParam(name = "price") Integer price,
+                               @RequestParam(name ="weight" ) Integer weight,
+                               @RequestParam(name = "coverImage") List<String> coverImages,
                                @RequestParam(name = "content") String content,
                                @RequestParam(name = "noodleImages")String noodleImage){
-        int result = consoleService.createNoodle(id,name,price,noodleImage,content,weight,coverImages);
+        int result = consoleService.createNoodle(name,price,noodleImage,content,weight,coverImages);
 
         return 1==result ?"成功":"失败";
     }
     @RequestMapping("/noodle/update")
-    public String noodleUpdate(@RequestParam(name = "id") BigInteger id,
+    public String noodleUpdate(@RequestParam(name = "noodleId") BigInteger noodleId,
                                @RequestParam(name = "name") String name,
-                               @RequestParam(name = "price") int price,
-                               @RequestParam(name ="weight" ) int weight,
+                               @RequestParam(name = "price") Integer price,
+                               @RequestParam(name ="weight" ) Integer weight,
                                @RequestParam(name = "coverImage") List coverImages,
                                @RequestParam(name = "content") String content,
                                @RequestParam(name = "noodleImages")String noodleImage){
-        int result = consoleService.updateNoodle(id,name,price,noodleImage,content,weight,coverImages);
+        int result = consoleService.updateNoodle(noodleId,name,price,noodleImage,content,weight,coverImages);
         return 1==result ?"成功":"失败";
     }
     @RequestMapping("/noodle/delete")

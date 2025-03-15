@@ -16,9 +16,8 @@ import java.util.List;
 @Data
 public class NoodleAppListVo {
    private BigInteger noodleId;
-    private String noodleImage;
-    private List coverImages;
+    private String feedImage;
    private String noodleName;
-   private int price;
+   private Integer price;
 
 }

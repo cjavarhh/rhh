@@ -3,7 +3,7 @@ package com.itrhh.app.controller;
 import com.itrhh.app.domain.vo.NoodleAppListVo;
 import com.itrhh.app.domain.vo.NoodleInfoVo;
 import com.itrhh.module.entity.Noodle;
-import com.itrhh.module.service.impl.AppServiceImpl;
+import com.itrhh.module.service.AppService;
 import lombok.Data;
 import org.omg.CORBA.DATA_CONVERSION;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,15 +29,15 @@ import java.util.List;
  */
 @RestController
 public class NoodleController {
-    String dbCoverImage="url1$url2$url3";
-    String[] imageArray=dbCoverImage.split("\\$");
-    List<String>imageList= Arrays.asList(imageArray);
+    //String dbCoverImage="url1$url2$url3";
+    //String[] imageArray=dbCoverImage.split("\\$");
+    //List<String>imageList= Arrays.asList(imageArray);
     @Autowired
-    private AppServiceImpl appService;
+    private AppService appService;
     @RequestMapping("/noodle/info")
     public NoodleInfoVo noodleInfo(@RequestParam(name = "noodleId")BigInteger noodleId){
-       // String dbCoverImage="url1$url2$url3";
-       // String[] imageArray=dbCoverImage.split("\\$");
+        //String dbCoverImage="url1$url2$url3";
+       //String[] imageArray=dbCoverImage.split("\\$");
         //List<String>imageList= Arrays.asList(imageArray);
 
 
@@ -47,8 +47,12 @@ public class NoodleController {
             System.out.println("代码有问题·");
             return null;
         }
-        noodleInfoVo.setCoverImages(imageList);
-        noodleInfoVo.setNoodleImage(noodleInfoById.getNoodleImage());
+        String coverImages = noodleInfoById.getCoverImages();
+        String[] split = coverImages.split("\\$");
+        String toString = coverImages.toString();
+      //String[] split = toString.split("\\$");
+       List<String> imageList = Arrays.asList(split);
+        noodleInfoVo.setNoodleImages(imageList);
         noodleInfoVo.setNoodleName(noodleInfoById.getNoodleName());
         noodleInfoVo.setContent(noodleInfoById.getContent());
         noodleInfoVo.setPrice(noodleInfoById.getPrice());
@@ -61,8 +65,7 @@ public class NoodleController {
         ArrayList<NoodleAppListVo> noodleAppListVos = new ArrayList<>();
         NoodleAppListVo noodleAppListVo = new NoodleAppListVo();
         for (Noodle noodle : allNoodleInfo) {
-            noodleAppListVo.setCoverImages(imageList);
-            noodleAppListVo.setNoodleImage(noodle.getNoodleImage());
+            noodleAppListVo.setFeedImage(noodle.getNoodleImage());
             noodleAppListVo.setNoodleId(noodle.getId());
             noodleAppListVo.setNoodleName(noodle.getNoodleName());
             noodleAppListVo.setPrice(noodle.getPrice());
