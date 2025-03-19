@@ -22,30 +22,31 @@ public class NoodleConsoleController {
     private ConsoleService consoleService;
 
     @RequestMapping("/noodle/create")
-    public String noodleCreate(@RequestParam(name = "name") String name,
+    public String noodleCreate(@RequestParam(name = "noodleName") String noodleName,
                                @RequestParam(name = "price") Integer price,
                                @RequestParam(name ="weight" ) Integer weight,
-                               @RequestParam(name = "coverImage") List<String> coverImages,
+                               @RequestParam(name = "coverImages") String coverImages,
                                @RequestParam(name = "content") String content,
-                               @RequestParam(name = "noodleImages")String noodleImage){
-        int result = consoleService.createNoodle(name,price,noodleImage,content,weight,coverImages);
+                               @RequestParam(name = "noodleImage")String noodleImage){
+        int result = consoleService.createNoodle(noodleName,price,noodleImage,content,weight,coverImages);
 
         return 1==result ?"成功":"失败";
     }
     @RequestMapping("/noodle/update")
     public String noodleUpdate(@RequestParam(name = "noodleId") BigInteger noodleId,
-                               @RequestParam(name = "name") String name,
+                               @RequestParam(name = "noodleName") String noodleName,
                                @RequestParam(name = "price") Integer price,
                                @RequestParam(name ="weight" ) Integer weight,
-                               @RequestParam(name = "coverImage") List coverImages,
+                               @RequestParam(name = "coverImages") String coverImages,
                                @RequestParam(name = "content") String content,
-                               @RequestParam(name = "noodleImages")String noodleImage){
-        int result = consoleService.updateNoodle(noodleId,name,price,noodleImage,content,weight,coverImages);
+                               @RequestParam(name = "noodleImage")String noodleImage){
+        int result = consoleService.updateNoodle(noodleId,noodleName,price,noodleImage,content,weight,coverImages);
         return 1==result ?"成功":"失败";
     }
     @RequestMapping("/noodle/delete")
-    public String noodleDelete(@RequestParam(name = "noodleId") BigInteger noodleId){
-        int result = consoleService.deleteNoodle(noodleId);
+    public String noodleDelete(@RequestParam(name = "noodleId") BigInteger noodleId,
+                               @RequestParam(name = "updateTime")Integer updateTime){
+        int result = consoleService.deleteNoodle(noodleId,updateTime);
         return 1==result ?"成功":"失败";
     }
 

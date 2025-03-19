@@ -49,7 +49,7 @@ public class NoodleController {
         }
         String coverImages = noodleInfoById.getCoverImages();
         String[] split = coverImages.split("\\$");
-        String toString = coverImages.toString();
+       // String toString = coverImages.toString();
       //String[] split = toString.split("\\$");
        List<String> imageList = Arrays.asList(split);
         noodleInfoVo.setNoodleImages(imageList);

@@ -3,27 +3,25 @@
 <mapper namespace="com.itrhh.module.mapper.NoodleMapper">
 <insert id="noodleInsert"
         parameterType="com.itrhh.module.entity.Noodle">
-insert into noodle (noodleName,price,noodleImages,content,noodleWeight,coverImages)
-value  (#{Noodle.noodleName},#{Noodle.price},#{Noodle.noodleWeight},#{Noodole.coverImages},#{Noodle.content},#{noodle.noodleImage},#{noodle.updateTime},
-    #{noodle.createTime},#{noodle.isDeleted})
+insert into noodle (noodle_name,price,noodle_image,content,noodle_weight,cover_Images,update_time,create_time,is_deleted)
+value  (#{noodle.noodleName},#{noodle.price},#{noodle.noodleImage},#{noodle.content},#{noodle.noodleWeight},#{noodle.coverImages},#{noodle.updateTime},#{noodle.createTime},#{noodle.isDeleted})
 </insert>
-    <update id="noodleUpdate"
-            parameterType="com.itrhh.module.entity.Noodle">
-update noodle set name =#{noodle.name},
+    <update id="noodleUpdate"  parameterType="com.itrhh.module.entity.Noodle" >
+update noodle set noodle_name =#{noodle.noodleName},
                   content=#{noodle.content },
                   price=#{noodle.price},
-                  weight=#{noodle.noodleWeight},
-                  coverImages=#{noodle.coverImages},
-                  noodleImages=#{noodle.noodleImage},
+                  noodle_weight=#{noodle.noodleWeight},
+                  cover_images=#{noodle.coverImages},
+                  noodle_image=#{noodle.noodleImage},
                   update_time=#{noodle.updateTime}
-where id=#{noodle.id}
+where id=#{id}
 
 
 
     </update>
     <update id="noodleDelete"
     parameterType="com.itrhh.module.entity.Noodle">
-update noodle set id_delete=1,update_time=NOW() where id=#{id}
+update noodle set is_deleted=1,update_time=#{updateTime} where id=#{id}
 
     </update>
 </mapper>

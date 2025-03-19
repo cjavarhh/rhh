@@ -2,6 +2,7 @@ package com.itrhh.module.service;
 
 import com.itrhh.module.entity.Noodle;
 import com.itrhh.module.mapper.NoodleMapper;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.math.BigInteger;
@@ -14,6 +15,7 @@ import java.util.List;
  * @Date 2024/10/19 20:12
  * @Version 1.0.0
  */
+@Service
 public class ConsoleService {
     @Resource
     private NoodleMapper mapper;
@@ -40,7 +42,6 @@ public class ConsoleService {
 
         int timestamp =(int) (System.currentTimeMillis()/100);
         Noodle noodle = new Noodle();
-        noodle.setId(id);
         noodle.setNoodleName(name);
         noodle.setNoodleWeight(weight);
         noodle.setPrice(price);
@@ -48,11 +49,9 @@ public class ConsoleService {
         noodle.setNoodleImage(noodleImage);
         noodle.setCoverImages(coverImages);
         noodle.setUpdateTime(timestamp);
-        noodle.setIsDeleted(0);
-        return mapper.noodleUpdate(noodle);
+        return mapper.noodleUpdate(noodle,id);
     }
-public int deleteNoodle(BigInteger id){
-
-        return mapper.noodleDelete(id);
+public int deleteNoodle(BigInteger id,Integer updateTime){
+        return mapper.noodleDelete(id,updateTime);
 }
 }
