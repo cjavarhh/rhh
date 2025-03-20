@@ -1,9 +1,10 @@
 package com.itrhh.app.controller;
 
-import com.itrhh.app.domain.vo.NoodleAppListVo;
-import com.itrhh.app.domain.vo.NoodleInfoVo;
+import com.itrhh.app.domain.NoodleAppListVo;
+import com.itrhh.app.domain.NoodleInfoVo;
 import com.itrhh.module.entity.Noodle;
 import com.itrhh.module.service.AppService;
+import com.itrhh.module.service.NoodleService;
 import lombok.Data;
 import org.omg.CORBA.DATA_CONVERSION;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,7 +34,7 @@ public class NoodleController {
     //String[] imageArray=dbCoverImage.split("\\$");
     //List<String>imageList= Arrays.asList(imageArray);
     @Autowired
-    private AppService appService;
+    private NoodleService noodleService;
     @RequestMapping("/noodle/info")
     public NoodleInfoVo noodleInfo(@RequestParam(name = "noodleId")BigInteger noodleId){
         //String dbCoverImage="url1$url2$url3";
@@ -41,7 +42,7 @@ public class NoodleController {
         //List<String>imageList= Arrays.asList(imageArray);
 
 
-        Noodle noodleInfoById = appService.getNoodleInfoById(noodleId);
+        Noodle noodleInfoById = noodleService.getNoodleInfoById(noodleId);
         NoodleInfoVo noodleInfoVo = new NoodleInfoVo();
         if(noodleInfoById==null){
             System.out.println("代码有问题·");
@@ -61,7 +62,7 @@ public class NoodleController {
     }
     @RequestMapping("/noodle/list")
     public List<NoodleAppListVo> noodleAll(){
-        List<Noodle> allNoodleInfo = appService.getAllNoodleInfo();
+        List<Noodle> allNoodleInfo = noodleService.getAllNoodleInfo();
         ArrayList<NoodleAppListVo> noodleAppListVos = new ArrayList<>();
         NoodleAppListVo noodleAppListVo = new NoodleAppListVo();
         for (Noodle noodle : allNoodleInfo) {

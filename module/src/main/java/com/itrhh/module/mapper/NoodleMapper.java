@@ -34,5 +34,5 @@ public interface NoodleMapper {
     int noodleUpdate(@Param("noodle") Noodle noodle,@Param("id") BigInteger id);
 
     //删除一条面条信息
-    int noodleDelete(@Param("id") BigInteger id,@Param("updateTime") Integer uptimeTime);
+    int noodleDelete(@Param("id") BigInteger id);
 }

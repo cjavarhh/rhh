@@ -1,6 +1,7 @@
 package com.itrhh.console.controller;
 
 import com.itrhh.module.service.ConsoleService;
+import com.itrhh.module.service.NoodleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,7 +20,7 @@ import java.util.List;
 @RestController
 public class NoodleConsoleController {
     @Autowired
-    private ConsoleService consoleService;
+    private NoodleService noodleService;
 
     @RequestMapping("/noodle/create")
     public String noodleCreate(@RequestParam(name = "noodleName") String noodleName,
@@ -28,7 +29,7 @@ public class NoodleConsoleController {
                                @RequestParam(name = "coverImages") String coverImages,
                                @RequestParam(name = "content") String content,
                                @RequestParam(name = "noodleImage")String noodleImage){
-        int result = consoleService.createNoodle(noodleName,price,noodleImage,content,weight,coverImages);
+        int result = noodleService.createNoodle(noodleName,price,noodleImage,content,weight,coverImages);
 
         return 1==result ?"成功":"失败";
     }
@@ -40,13 +41,12 @@ public class NoodleConsoleController {
                                @RequestParam(name = "coverImages") String coverImages,
                                @RequestParam(name = "content") String content,
                                @RequestParam(name = "noodleImage")String noodleImage){
-        int result = consoleService.updateNoodle(noodleId,noodleName,price,noodleImage,content,weight,coverImages);
+        int result = noodleService.updateNoodle(noodleId,noodleName,price,noodleImage,content,weight,coverImages);
         return 1==result ?"成功":"失败";
     }
     @RequestMapping("/noodle/delete")
-    public String noodleDelete(@RequestParam(name = "noodleId") BigInteger noodleId,
-                               @RequestParam(name = "updateTime")Integer updateTime){
-        int result = consoleService.deleteNoodle(noodleId,updateTime);
+    public String noodleDelete(@RequestParam(name = "noodleId") BigInteger noodleId){
+        int result = noodleService.deleteNoodle(noodleId);
         return 1==result ?"成功":"失败";
     }
 

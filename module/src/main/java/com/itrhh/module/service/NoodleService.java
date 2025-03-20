@@ -9,14 +9,25 @@ import java.math.BigInteger;
 import java.util.List;
 
 /**
- * @Classname ConsoleServiceImpl
+ * @Classname NoodleService
  * @Description TODO
  * @Created by 14195
- * @Date 2024/10/19 20:12
+ * @Date 2025/3/20 21:08
  * @Version 1.0.0
  */
 @Service
-public class ConsoleService {
+public class NoodleService {
+    @Resource
+    private NoodleMapper nooodleMapper;
+
+    public List<Noodle> getAllNoodleInfo() {
+
+        return nooodleMapper.getAll();
+
+    }
+    public  Noodle getNoodleInfoById(BigInteger id){
+        return nooodleMapper.getById(id);
+    }
     @Resource
     private NoodleMapper mapper;
 
@@ -42,6 +53,7 @@ public class ConsoleService {
 
         int timestamp =(int) (System.currentTimeMillis()/100);
         Noodle noodle = new Noodle();
+        noodle.setId(id);
         noodle.setNoodleName(name);
         noodle.setNoodleWeight(weight);
         noodle.setPrice(price);
@@ -51,7 +63,7 @@ public class ConsoleService {
         noodle.setUpdateTime(timestamp);
         return mapper.noodleUpdate(noodle,id);
     }
-public int deleteNoodle(BigInteger id,Integer updateTime){
-        return mapper.noodleDelete(id,updateTime);
-}
+    public int deleteNoodle(BigInteger id){
+        return mapper.noodleDelete(id);
+    }
 }
