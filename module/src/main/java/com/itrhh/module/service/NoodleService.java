@@ -64,6 +64,6 @@ public class NoodleService {
         return mapper.noodleUpdate(noodle,id);
     }
     public int deleteNoodle(BigInteger id){
-        return mapper.noodleDelete(id);
+        return mapper.noodleDelete(id,(int)(System.currentTimeMillis()/100));
     }
 }

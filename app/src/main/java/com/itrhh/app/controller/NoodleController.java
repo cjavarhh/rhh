@@ -3,7 +3,6 @@ package com.itrhh.app.controller;
 import com.itrhh.app.domain.NoodleAppListVo;
 import com.itrhh.app.domain.NoodleInfoVo;
 import com.itrhh.module.entity.Noodle;
-import com.itrhh.module.service.AppService;
 import com.itrhh.module.service.NoodleService;
 import lombok.Data;
 import org.omg.CORBA.DATA_CONVERSION;
