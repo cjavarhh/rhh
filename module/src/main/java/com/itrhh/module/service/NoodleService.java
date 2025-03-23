@@ -61,7 +61,7 @@ public class NoodleService {
         noodle.setNoodleImage(noodleImage);
         noodle.setCoverImages(coverImages);
         noodle.setUpdateTime(timestamp);
-        return mapper.noodleUpdate(noodle,id);
+        return mapper.noodleUpdate(noodle);
     }
     public int deleteNoodle(BigInteger id){
         return mapper.noodleDelete(id,(int)(System.currentTimeMillis()/100));

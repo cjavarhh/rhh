@@ -14,7 +14,7 @@ update noodle set noodle_name =#{noodle.noodleName},
                   cover_images=#{noodle.coverImages},
                   noodle_image=#{noodle.noodleImage},
                   update_time=#{noodle.updateTime}
-where id=#{id}
+where id=#{noodle.id}
 
 
 

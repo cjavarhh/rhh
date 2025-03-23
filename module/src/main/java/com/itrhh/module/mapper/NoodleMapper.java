@@ -4,6 +4,7 @@ import com.itrhh.module.entity.Noodle;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
+import org.yaml.snakeyaml.events.Event;
 
 import java.math.BigInteger;
 import java.util.Date;
@@ -31,7 +32,7 @@ public interface NoodleMapper {
     int noodleInsert(@Param("noodle") Noodle noodle);
 
     //修改一个面条信息
-    int noodleUpdate(@Param("noodle") Noodle noodle,@Param("id") BigInteger id);
+    int noodleUpdate(@Param("noodle") Noodle noodle);
 
     //删除一条面条信息
     int noodleDelete(@Param("id") BigInteger id,@Param("updateTime") Integer updateTime);
