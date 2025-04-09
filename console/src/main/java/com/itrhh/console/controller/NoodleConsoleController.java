@@ -27,6 +27,9 @@ public class NoodleConsoleController {
                                @RequestParam(name = "coverImages") String coverImages,
                                @RequestParam(name = "content") String content,
                                @RequestParam(name = "noodleImage")String noodleImage){
+        String nameTrim = noodleName.trim();
+
+
         int result = noodleService.createNoodle(noodleName,price,noodleImage,content,weight,coverImages);
 
         return 1==result ?"成功":"失败";

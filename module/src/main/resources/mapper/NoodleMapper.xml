@@ -3,25 +3,48 @@
 <mapper namespace="com.itrhh.module.mapper.NoodleMapper">
 <insert id="noodleInsert"
         parameterType="com.itrhh.module.entity.Noodle">
-insert into noodle (noodle_name,price,noodle_image,content,noodle_weight,cover_Images,update_time,create_time,is_deleted)
-value  (#{noodle.noodleName},#{noodle.price},#{noodle.noodleImage},#{noodle.content},#{noodle.noodleWeight},#{noodle.coverImages},#{noodle.updateTime},#{noodle.createTime},#{noodle.isDeleted})
+insert into noodle (
+                    <if test="noodle.noodleName !=null">noodle_name,</if>
+                    <if test="noodle.price !=null">price,</if>
+                    <if test="noodle.noodleImage !=null and noodle.noodleImage !=''">noodle_image,</if>
+                    <if test="noodle.content !=null and noodle.content !=''">content,</if>
+                    <if test="noodle.noodleWeight !=null">noodle_weight,</if>
+                    <if test="noodle.coverImages !=null and noodle.coverImages !=''">cover_images,</if>
+                    <if test="noodle.updateTime !=null">update_time,</if>
+                    <if test="noodle.createTime !=null">create_time,</if>
+                    is_deleted)
+values  ( <if test="noodle.noodleName !=null">#{noodle.noodleName},</if>
+         <if test="noodle.price !=null">#{noodle.price},</if>
+         <if test="noodle.noodleImage !=null">#{noodle.noodleImage},</if>
+         <if test="noodle.content !=null">#{noodle.content },</if>
+         <if test="noodle.noodleWeight !=null">#{noodle.noodleWeight},</if>
+         <if test="noodle.coverImages !=null">#{noodle.coverImages},</if>
+         <if test="noodle.updateTime !=null">#{noodle.updateTime},</if>
+         <if test="noodle.createTime !=null">#{noodle.createTime},</if>
+        #{noodle.isDeleted})
 </insert>
     <update id="noodleUpdate"  parameterType="com.itrhh.module.entity.Noodle" >
-update noodle set noodle_name =#{noodle.noodleName},
-                  content=#{noodle.content },
-                  price=#{noodle.price},
-                  noodle_weight=#{noodle.noodleWeight},
-                  cover_images=#{noodle.coverImages},
-                  noodle_image=#{noodle.noodleImage},
-                  update_time=#{noodle.updateTime}
+update noodle set id=#{noodle.id}
+                <if test="noodle.noodleName !=null">,noodle_name =#{noodle.noodleName}</if>
+                <if test="noodle.content !=null">,content=#{noodle.content}</if>
+                <if test="noodle.price !=null">,price=#{noodle.price}</if>
+                <if test="noodle.noodleWeight !=null">,noodle_weight=#{noodle.noodleWeight}</if>
+                <if test="noodle.coverImages !=null">,cover_images=#{noodle.coverImages}</if>
+                <if test="noodle.noodleImage!=null">,noodle_image=#{noodle.noodleImage}</if>
+                <if test="noodle.updateTime !=null">,update_time=#{noodle.updateTime}</if>
 where id=#{noodle.id}
 
 
 
-    </update>
-    <update id="noodleDelete"
-    parameterType="com.itrhh.module.entity.Noodle">
-update noodle set is_deleted=1,update_time=#{updateTime} where id=#{id}
 
     </update>
+    <!--
+    <update id="noodleDelete"
+            parameterType="com.itrhh.module.entity.Noodle">
+        update noodle set is_deleted=1,update_time=#{updateTime} where id=#{id}
+
+    </update>
+    -->
+
+
 </mapper>

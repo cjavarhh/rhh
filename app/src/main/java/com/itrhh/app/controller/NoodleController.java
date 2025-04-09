@@ -51,7 +51,7 @@ public class NoodleController {
         String[] split = coverImages.split("\\$");
        // String toString = coverImages.toString();
       //String[] split = toString.split("\\$");
-       List<String> imageList = Arrays.asList(split);
+        List<String> imageList = Arrays.asList(split);
         noodleInfoVo.setNoodleImages(imageList);
         noodleInfoVo.setNoodleName(noodleInfoById.getNoodleName());
         noodleInfoVo.setContent(noodleInfoById.getContent());
@@ -59,6 +59,8 @@ public class NoodleController {
         noodleInfoVo.setWeight(noodleInfoById.getNoodleWeight());
         return noodleInfoVo;
     }
+
+
     @RequestMapping("/noodle/list")
     public List<NoodleAppListVo> noodleAll(){
         List<Noodle> allNoodleInfo = noodleService.getAllNoodleInfo();

@@ -22,13 +22,13 @@ public class Noodle {
 
     private String noodleName;
 
-    private  Integer price;
+    private Integer price;
 
     private String noodleImage;
 
     private String content;
 
-    private  Integer noodleWeight;
+    private Integer noodleWeight;
 
     private String coverImages;//轮播图
 
