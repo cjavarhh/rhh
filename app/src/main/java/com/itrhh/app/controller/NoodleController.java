@@ -34,23 +34,24 @@ public class NoodleController {
     //List<String>imageList= Arrays.asList(imageArray);
     @Autowired
     private NoodleService noodleService;
+
     @RequestMapping("/noodle/info")
-    public NoodleInfoVo noodleInfo(@RequestParam(name = "noodleId")BigInteger noodleId){
+    public NoodleInfoVo noodleInfo(@RequestParam(name = "noodleId") BigInteger noodleId) {
         //String dbCoverImage="url1$url2$url3";
-       //String[] imageArray=dbCoverImage.split("\\$");
+        //String[] imageArray=dbCoverImage.split("\\$");
         //List<String>imageList= Arrays.asList(imageArray);
 
 
         Noodle noodleInfoById = noodleService.getNoodleInfoById(noodleId);
         NoodleInfoVo noodleInfoVo = new NoodleInfoVo();
-        if(noodleInfoById==null){
+        if (noodleInfoById == null) {
             System.out.println("代码有问题·");
             return null;
         }
         String coverImages = noodleInfoById.getCoverImages();
         String[] split = coverImages.split("\\$");
-       // String toString = coverImages.toString();
-      //String[] split = toString.split("\\$");
+        // String toString = coverImages.toString();
+        //String[] split = toString.split("\\$");
         List<String> imageList = Arrays.asList(split);
         noodleInfoVo.setNoodleImages(imageList);
         noodleInfoVo.setNoodleName(noodleInfoById.getNoodleName());
@@ -62,7 +63,7 @@ public class NoodleController {
 
 
     @RequestMapping("/noodle/list")
-    public List<NoodleAppListVo> noodleAll(){
+    public List<NoodleAppListVo> noodleAll() {
         List<Noodle> allNoodleInfo = noodleService.getAllNoodleInfo();
         ArrayList<NoodleAppListVo> noodleAppListVos = new ArrayList<>();
         NoodleAppListVo noodleAppListVo = new NoodleAppListVo();
@@ -73,7 +74,7 @@ public class NoodleController {
             noodleAppListVo.setPrice(noodle.getPrice());
             noodleAppListVos.add(noodleAppListVo);
         }
-        return noodleAppListVos ;
+        return noodleAppListVos;
     }
 
 
