@@ -45,7 +45,7 @@ public class NoodleController {
         Noodle noodleInfoById = noodleService.getNoodleInfoById(noodleId);
         NoodleInfoVo noodleInfoVo = new NoodleInfoVo();
         if (noodleInfoById == null) {
-            System.out.println("代码有问题·");
+            System.out.println("没有拿到指定的id");
             return null;
         }
         String coverImages = noodleInfoById.getCoverImages();
