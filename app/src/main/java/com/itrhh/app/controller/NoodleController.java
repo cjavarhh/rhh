@@ -29,6 +29,7 @@ import java.util.List;
  */
 @RestController
 public class NoodleController {
+    private  Integer total =7;
     //String dbCoverImage="url1$url2$url3";
     //String[] imageArray=dbCoverImage.split("\\$");
     //List<String>imageList= Arrays.asList(imageArray);
@@ -63,8 +64,8 @@ public class NoodleController {
 
 
     @RequestMapping("/noodle/list")
-    public List<NoodleAppListVo> noodleAll() {
-        List<Noodle> allNoodleInfo = noodleService.getAllNoodleInfo();
+    public List<NoodleAppListVo> noodleAll(@RequestParam(name = "offset") Integer offset,@RequestParam(name = "pageSize") Integer pageSize) {
+        List<Noodle> allNoodleInfo = noodleService.getAllNoodleInfo(offset, pageSize);
         ArrayList<NoodleAppListVo> noodleAppListVos = new ArrayList<>();
         NoodleAppListVo noodleAppListVo = new NoodleAppListVo();
         for (Noodle noodle : allNoodleInfo) {
@@ -74,6 +75,9 @@ public class NoodleController {
             noodleAppListVo.setPrice(noodle.getPrice());
             noodleAppListVos.add(noodleAppListVo);
         }
+        Boolean isEnd= allNoodleInfo.size()>total?true:false;
+        noodleAppListVo.setIsEnd(isEnd);
+        noodleAppListVos.add(noodleAppListVo) ;
         return noodleAppListVos;
     }
 

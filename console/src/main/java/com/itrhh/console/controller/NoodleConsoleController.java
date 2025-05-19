@@ -1,5 +1,10 @@
 package com.itrhh.console.controller;
 
+import com.itrhh.app.domain.NoodleAppListVo;
+import com.itrhh.app.domain.NoodleInfoVo;
+import com.itrhh.console.domain.NoodleConsoleInfoVo;
+import com.itrhh.console.domain.NoodleConsoleListVo;
+import com.itrhh.module.entity.Noodle;
 import com.itrhh.module.service.NoodleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -56,5 +64,59 @@ public class NoodleConsoleController {
         int result = noodleService.deleteNoodle(noodleId);
         return 1 == result ? "成功" : "失败";
     }
+
+
+    @RequestMapping("/noodleConsole/info")
+    public NoodleConsoleInfoVo noodleConsoleInfo(@RequestParam(name = "noodleId") BigInteger noodleId) {
+        //String dbCoverImage="url1$url2$url3";
+        //String[] imageArray=dbCoverImage.split("\\$");
+        //List<String>imageList= Arrays.asList(imageArray);
+        Noodle noodleInfoConsoleById = noodleService.getNoodleInfoById(noodleId);
+        NoodleConsoleInfoVo noodleConsoleInfoVo = new NoodleConsoleInfoVo();
+        //NoodleInfoVo noodleInfoVo = new NoodleInfoVo();
+        if (noodleInfoConsoleById == null) {
+            System.out.println("没有拿到指定的id");
+            return null;
+        }
+        String coverImages = noodleInfoConsoleById.getCoverImages();
+        String[] split = coverImages.split("\\$");
+        // String toString = coverImages.toString();
+        //String[] split = toString.split("\\$");
+        List<String> imageList = Arrays.asList(split);
+        noodleConsoleInfoVo.setNoodleImages(imageList);
+        noodleConsoleInfoVo.setNoodleName(noodleInfoConsoleById.getNoodleName());
+        noodleConsoleInfoVo.setContent(noodleInfoConsoleById.getContent());
+        noodleConsoleInfoVo.setPrice(noodleInfoConsoleById.getPrice());
+        noodleConsoleInfoVo.setWeight(noodleInfoConsoleById.getNoodleWeight());
+        LocalDateTime createTime= LocalDateTime.now();
+        LocalDateTime updateTime = createTime.plusHours(1);
+        noodleConsoleInfoVo.setCreateTime(createTime);
+        noodleConsoleInfoVo.setUpdateTime(updateTime);
+        return noodleConsoleInfoVo ;
+
+    }
+    @RequestMapping("/noodleConsole/list")
+    public List<NoodleConsoleListVo> noodleConsoleAll(@RequestParam(name = "offset") Integer offset, @RequestParam(name = "pageSize") Integer pageSize) {
+        List<Noodle> allNoodleInfo = noodleService.getAllNoodleInfo(offset, pageSize);
+        ArrayList<NoodleConsoleListVo> noodleAppListVos = new ArrayList<>();
+        //NoodleConsoleInfoVo noodleConsoleInfoVo = new NoodleConsoleInfoVo();
+
+        //NoodleAppListVo noodleAppListVo = new NoodleAppListVo();
+        NoodleConsoleListVo noodleConsoleListVo = new NoodleConsoleListVo();
+       // NoodleConsoleInfoVo noodleConsoleInfoVo = new NoodleConsoleInfoVo();
+        for (Noodle noodle : allNoodleInfo) {
+            noodleConsoleListVo.setFeedImage(noodle.getNoodleImage());
+            noodleConsoleListVo.setNoodleId(noodle.getId());
+           // noodleConsoleListVo.setNoodleId(noodle.getId());
+            noodleConsoleListVo.setNoodleName(noodle.getNoodleName());
+            noodleConsoleListVo.setPrice(noodle.getPrice());
+            noodleConsoleListVo.setPageSize(pageSize);
+            noodleConsoleListVo.setTotal(allNoodleInfo.size());
+            noodleAppListVos.add(noodleConsoleListVo);
+
+        }
+        return noodleAppListVos;
+    }
+
 
 }

@@ -20,12 +20,13 @@ public class NoodleService {
     @Resource
     private NoodleMapper nooodleMapper;
 
-    public List<Noodle> getAllNoodleInfo() {
+    public List<Noodle> getAllNoodleInfo(Integer offset,Integer pageSize) {
 
         return nooodleMapper.getAll();
-
     }
+
     public  Noodle getNoodleInfoById(BigInteger id){
+
         return nooodleMapper.getById(id);
     }
     @Resource
