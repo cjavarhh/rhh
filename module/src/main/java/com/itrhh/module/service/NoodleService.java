@@ -22,7 +22,7 @@ public class NoodleService {
 
     public List<Noodle> getAllNoodleInfo(Integer offset,Integer pageSize) {
 
-        return nooodleMapper.getAll();
+        return nooodleMapper.getAll(offset,pageSize);
     }
 
     public  Noodle getNoodleInfoById(BigInteger id){

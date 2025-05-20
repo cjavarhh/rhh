@@ -25,8 +25,10 @@ public interface NoodleMapper {
     Noodle getById(@Param("id")BigInteger id);
 
     //分页查询所有面条信息
-    @Select("select *from noodle limit #{offset},#{pageSize} where is_deleted=0")
-    List<Noodle> getAll();
+   // @Select("select *from noodle limit #{offset},#{pageSize} where is_deleted=0")
+    @Select("select * from noodle where is_deleted = 0 limit #{offset}, #{pageSize}")
+     //List<Noodle> getAll();
+    List<Noodle> getAll(@Param("offset") Integer offset, @Param("pageSize") Integer pageSize);
 
 
     //增加一个面条信息
