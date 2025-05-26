@@ -6,6 +6,7 @@ import com.itrhh.console.domain.NoodleConsoleInfoVo;
 import com.itrhh.console.domain.NoodleConsoleListVo;
 import com.itrhh.module.entity.Noodle;
 import com.itrhh.module.service.NoodleService;
+import com.itrhh.module.vo.ResultConsoleVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -44,7 +45,7 @@ public class NoodleConsoleController {
 
         return 1 == result ? "成功" : "失败";
     }
-    
+
 
     @RequestMapping("/noodle/update")
     public String noodleUpdate(@RequestParam(name = "noodleId") BigInteger noodleId,
@@ -66,7 +67,7 @@ public class NoodleConsoleController {
     }
 
 
-    @RequestMapping("/noodleConsole/info")
+    @RequestMapping("/noodleConsole/Info")
     public NoodleConsoleInfoVo noodleConsoleInfo(@RequestParam(name = "noodleId") BigInteger noodleId) {
         //String dbCoverImage="url1$url2$url3";
         //String[] imageArray=dbCoverImage.split("\\$");
@@ -88,35 +89,36 @@ public class NoodleConsoleController {
         noodleConsoleInfoVo.setContent(noodleInfoConsoleById.getContent());
         noodleConsoleInfoVo.setPrice(noodleInfoConsoleById.getPrice());
         noodleConsoleInfoVo.setWeight(noodleInfoConsoleById.getNoodleWeight());
-        LocalDateTime createTime= LocalDateTime.now();
+        LocalDateTime createTime = LocalDateTime.now();
         LocalDateTime updateTime = createTime.plusHours(1);
         noodleConsoleInfoVo.setCreateTime(createTime);
         noodleConsoleInfoVo.setUpdateTime(updateTime);
-        return noodleConsoleInfoVo ;
+        return noodleConsoleInfoVo;
 
     }
+
     @RequestMapping("/noodleConsole/list")
-    public List<NoodleConsoleListVo> noodleConsoleAll(@RequestParam(name = "offset") Integer offset, @RequestParam(name = "pageSize") Integer pageSize) {
+    public ResultConsoleVo noodleConsoleAll(@RequestParam(name = "offset") Integer offset, @RequestParam(name = "pageSize") Integer pageSize) {
         List<Noodle> allNoodleInfo = noodleService.getAllNoodleInfo(offset, pageSize);
         ArrayList<NoodleConsoleListVo> noodleAppListVos = new ArrayList<>();
         //NoodleConsoleInfoVo noodleConsoleInfoVo = new NoodleConsoleInfoVo();
 
         //NoodleAppListVo noodleAppListVo = new NoodleAppListVo();
         NoodleConsoleListVo noodleConsoleListVo = new NoodleConsoleListVo();
-       // NoodleConsoleInfoVo noodleConsoleInfoVo = new NoodleConsoleInfoVo();
+        ResultConsoleVo<Object> resultConsoleVo = new ResultConsoleVo<>();
+        // NoodleConsoleInfoVo noodleConsoleInfoVo = new NoodleConsoleInfoVo();
         for (Noodle noodle : allNoodleInfo) {
             noodleConsoleListVo.setFeedImage(noodle.getNoodleImage());
             noodleConsoleListVo.setNoodleId(noodle.getId());
-           // noodleConsoleListVo.setNoodleId(noodle.getId());
+            // noodleConsoleListVo.setNoodleId(noodle.getId());
             noodleConsoleListVo.setNoodleName(noodle.getNoodleName());
             noodleConsoleListVo.setPrice(noodle.getPrice());
-            noodleConsoleListVo.setPageSize(pageSize);
-            noodleConsoleListVo.setTotal(allNoodleInfo.size());
             noodleAppListVos.add(noodleConsoleListVo);
-
         }
-        return noodleAppListVos;
+        resultConsoleVo.setData(noodleAppListVos);
+        resultConsoleVo.setPagSize(pageSize);
+        resultConsoleVo.setTotal(allNoodleInfo.size());
+        return resultConsoleVo;
     }
-
 
 }

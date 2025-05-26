@@ -17,7 +17,5 @@ public class NoodleConsoleListVo {
     private String feedImage;
     private String noodleName;
     private Integer price;
-    private Integer total;
-    private Integer pageSize;
 
 }

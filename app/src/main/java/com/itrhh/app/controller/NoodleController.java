@@ -4,6 +4,7 @@ import com.itrhh.app.domain.NoodleAppListVo;
 import com.itrhh.app.domain.NoodleInfoVo;
 import com.itrhh.module.entity.Noodle;
 import com.itrhh.module.service.NoodleService;
+import com.itrhh.module.vo.ResultAppVo;
 import lombok.Data;
 import org.omg.CORBA.DATA_CONVERSION;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,9 +65,10 @@ public class NoodleController {
 
 
     @RequestMapping("/noodle/list")
-    public List<NoodleAppListVo> noodleAll(@RequestParam(name = "offset") Integer offset,@RequestParam(name = "pageSize") Integer pageSize) {
+    public ResultAppVo noodleAll(@RequestParam(name = "offset") Integer offset,@RequestParam(name = "pageSize") Integer pageSize) {
         List<Noodle> allNoodleInfo = noodleService.getAllNoodleInfo(offset, pageSize);
         ArrayList<NoodleAppListVo> noodleAppListVos = new ArrayList<>();
+        ResultAppVo resultAppVo = new ResultAppVo();
         NoodleAppListVo noodleAppListVo = new NoodleAppListVo();
         for (Noodle noodle : allNoodleInfo) {
             noodleAppListVo.setFeedImage(noodle.getNoodleImage());
@@ -76,9 +78,10 @@ public class NoodleController {
             noodleAppListVos.add(noodleAppListVo);
         }
         Boolean isEnd= allNoodleInfo.size()>total?true:false;
-        noodleAppListVo.setIsEnd(isEnd);
         noodleAppListVos.add(noodleAppListVo) ;
-        return noodleAppListVos;
+        resultAppVo.setData(noodleAppListVos);
+        resultAppVo.setIsEnd(isEnd);
+        return resultAppVo;
     }
 
 

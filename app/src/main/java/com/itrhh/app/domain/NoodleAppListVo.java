@@ -17,5 +17,5 @@ public class NoodleAppListVo {
     private String feedImage;
     private  String noodleName;
     private Integer price;
-    private Boolean isEnd;
+
 }
