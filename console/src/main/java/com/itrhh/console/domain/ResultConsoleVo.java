@@ -1,4 +1,4 @@
-package com.itrhh.module.vo;
+package com.itrhh.console.domain;
 
 import lombok.Data;
 

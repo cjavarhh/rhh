@@ -6,7 +6,7 @@ import com.itrhh.console.domain.NoodleConsoleInfoVo;
 import com.itrhh.console.domain.NoodleConsoleListVo;
 import com.itrhh.module.entity.Noodle;
 import com.itrhh.module.service.NoodleService;
-import com.itrhh.module.vo.ResultConsoleVo;
+import com.itrhh.console.domain.ResultConsoleVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

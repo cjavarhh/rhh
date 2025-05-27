@@ -4,7 +4,7 @@ import com.itrhh.app.domain.NoodleAppListVo;
 import com.itrhh.app.domain.NoodleInfoVo;
 import com.itrhh.module.entity.Noodle;
 import com.itrhh.module.service.NoodleService;
-import com.itrhh.module.vo.ResultAppVo;
+import com.itrhh.app.domain.ResultAppVo;
 import lombok.Data;
 import org.omg.CORBA.DATA_CONVERSION;
 import org.springframework.beans.factory.annotation.Autowired;
