@@ -13,12 +13,14 @@ import java.util.List;
  * @Version 1.0.0
  */
 @Data
-public class NoodleConsoleInfoVo {
+public class NoodleInfoVo {
     private String noodleName;
     private List<String> noodleImages;
     private Integer price;
     private  Integer weight;
     private  String content;
-    private LocalDateTime createTime;
-    private LocalDateTime updateTime;
+    private  String createTime;
+    private  String updateTime;
+  //  private LocalDateTime createTime;
+   // private LocalDateTime updateTime;
 }

@@ -12,10 +12,9 @@ import java.math.BigInteger;
  * @Version 1.0.0
  */
 @Data
-public class NoodleAppListVo {
+public class NoodleListVo {
     private BigInteger noodleId;
-    private String feedImage;
+    private String noodleImage;
     private  String noodleName;
-    private Integer price;
-
+   // private Integer price;
 }

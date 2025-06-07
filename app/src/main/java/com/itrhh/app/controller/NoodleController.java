@@ -1,22 +1,16 @@
 package com.itrhh.app.controller;
 
-import com.itrhh.app.domain.NoodleAppListVo;
+import com.itrhh.app.domain.NoodleListVo;
 import com.itrhh.app.domain.NoodleInfoVo;
 import com.itrhh.module.entity.Noodle;
 import com.itrhh.module.service.NoodleService;
 import com.itrhh.app.domain.ResultAppVo;
-import lombok.Data;
-import org.omg.CORBA.DATA_CONVERSION;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.servlet.HandlerInterceptor;
 
-import java.awt.*;
-import java.io.FileReader;
 import java.math.BigInteger;
-import java.sql.DatabaseMetaData;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -55,7 +49,7 @@ public class NoodleController {
         // String toString = coverImages.toString();
         //String[] split = toString.split("\\$");
         List<String> imageList = Arrays.asList(split);
-        noodleInfoVo.setNoodleImages(imageList);
+        noodleInfoVo.setCoverImages(imageList);
         noodleInfoVo.setNoodleName(noodleInfoById.getNoodleName());
         noodleInfoVo.setContent(noodleInfoById.getContent());
         noodleInfoVo.setPrice(noodleInfoById.getPrice());
@@ -65,16 +59,18 @@ public class NoodleController {
 
 
     @RequestMapping("/noodle/list")
-    public ResultAppVo noodleAll(@RequestParam(name = "offset") Integer offset,@RequestParam(name = "pageSize") Integer pageSize) {
+    public ResultAppVo noodleAll(@RequestParam(name = "page") Integer page) {
+        Integer pageSize=2;
+        Integer offset=(page-1)*pageSize;
         List<Noodle> allNoodleInfo = noodleService.getAllNoodleInfo(offset, pageSize);
-        ArrayList<NoodleAppListVo> noodleAppListVos = new ArrayList<>();
+        ArrayList<NoodleListVo> noodleAppListVos = new ArrayList<>();
         ResultAppVo resultAppVo = new ResultAppVo();
-        NoodleAppListVo noodleAppListVo = new NoodleAppListVo();
+        NoodleListVo noodleAppListVo = new NoodleListVo();
         for (Noodle noodle : allNoodleInfo) {
-            noodleAppListVo.setFeedImage(noodle.getNoodleImage());
+            noodleAppListVo.setNoodleImage(noodle.getNoodleImage());
             noodleAppListVo.setNoodleId(noodle.getId());
             noodleAppListVo.setNoodleName(noodle.getNoodleName());
-            noodleAppListVo.setPrice(noodle.getPrice());
+           // noodleAppListVo.setPrice(noodle.getPrice());
             noodleAppListVos.add(noodleAppListVo);
         }
         Boolean isEnd= allNoodleInfo.size()>total?true:false;

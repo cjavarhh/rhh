@@ -51,7 +51,6 @@ public class NoodleService {
 
 
     public int updateNoodle(BigInteger id, String name, Integer price, String noodleImage, String content, Integer weight, String coverImages){
-
         int timestamp =(int) (System.currentTimeMillis()/100);
         Noodle noodle = new Noodle();
         noodle.setId(id);

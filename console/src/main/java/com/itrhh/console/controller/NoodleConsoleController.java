@@ -1,9 +1,7 @@
 package com.itrhh.console.controller;
 
-import com.itrhh.app.domain.NoodleAppListVo;
-import com.itrhh.app.domain.NoodleInfoVo;
-import com.itrhh.console.domain.NoodleConsoleInfoVo;
-import com.itrhh.console.domain.NoodleConsoleListVo;
+import com.itrhh.console.domain.NoodleInfoVo;
+import com.itrhh.console.domain.NoodleListVo;
 import com.itrhh.module.entity.Noodle;
 import com.itrhh.module.service.NoodleService;
 import com.itrhh.console.domain.ResultConsoleVo;
@@ -14,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.math.BigInteger;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -67,13 +66,13 @@ public class NoodleConsoleController {
     }
 
 
-    @RequestMapping("/noodleConsole/Info")
-    public NoodleConsoleInfoVo noodleConsoleInfo(@RequestParam(name = "noodleId") BigInteger noodleId) {
+    @RequestMapping("/noodle/Info")
+    public NoodleInfoVo noodleConsoleInfo(@RequestParam(name = "noodleId") BigInteger noodleId) {
         //String dbCoverImage="url1$url2$url3";
         //String[] imageArray=dbCoverImage.split("\\$");
         //List<String>imageList= Arrays.asList(imageArray);
         Noodle noodleInfoConsoleById = noodleService.getNoodleInfoById(noodleId);
-        NoodleConsoleInfoVo noodleConsoleInfoVo = new NoodleConsoleInfoVo();
+        NoodleInfoVo noodleConsoleInfoVo = new NoodleInfoVo();
         //NoodleInfoVo noodleInfoVo = new NoodleInfoVo();
         if (noodleInfoConsoleById == null) {
             System.out.println("没有拿到指定的id");
@@ -89,26 +88,34 @@ public class NoodleConsoleController {
         noodleConsoleInfoVo.setContent(noodleInfoConsoleById.getContent());
         noodleConsoleInfoVo.setPrice(noodleInfoConsoleById.getPrice());
         noodleConsoleInfoVo.setWeight(noodleInfoConsoleById.getNoodleWeight());
-        LocalDateTime createTime = LocalDateTime.now();
-        LocalDateTime updateTime = createTime.plusHours(1);
+        LocalDateTime now = LocalDateTime.now();
+        LocalDateTime updateNow = now.plusHours(1);
+        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        String createTime = now.format(formatter);
+        String updateTime = updateNow.format(formatter);
+
+
         noodleConsoleInfoVo.setCreateTime(createTime);
         noodleConsoleInfoVo.setUpdateTime(updateTime);
         return noodleConsoleInfoVo;
 
     }
 
-    @RequestMapping("/noodleConsole/list")
-    public ResultConsoleVo noodleConsoleAll(@RequestParam(name = "offset") Integer offset, @RequestParam(name = "pageSize") Integer pageSize) {
+    @RequestMapping("/noodle/list")
+    public ResultConsoleVo noodleConsoleAll(@RequestParam(name = "page") Integer page) {
+        Integer pageSize=2;
+        Integer offset=(page-1)*pageSize;
+
         List<Noodle> allNoodleInfo = noodleService.getAllNoodleInfo(offset, pageSize);
-        ArrayList<NoodleConsoleListVo> noodleAppListVos = new ArrayList<>();
+        ArrayList<NoodleListVo> noodleAppListVos = new ArrayList<>();
         //NoodleConsoleInfoVo noodleConsoleInfoVo = new NoodleConsoleInfoVo();
 
         //NoodleAppListVo noodleAppListVo = new NoodleAppListVo();
-        NoodleConsoleListVo noodleConsoleListVo = new NoodleConsoleListVo();
+        NoodleListVo noodleConsoleListVo = new NoodleListVo();
         ResultConsoleVo<Object> resultConsoleVo = new ResultConsoleVo<>();
         // NoodleConsoleInfoVo noodleConsoleInfoVo = new NoodleConsoleInfoVo();
         for (Noodle noodle : allNoodleInfo) {
-            noodleConsoleListVo.setFeedImage(noodle.getNoodleImage());
+            noodleConsoleListVo.setNoodleImage(noodle.getNoodleImage());
             noodleConsoleListVo.setNoodleId(noodle.getId());
             // noodleConsoleListVo.setNoodleId(noodle.getId());
             noodleConsoleListVo.setNoodleName(noodle.getNoodleName());
