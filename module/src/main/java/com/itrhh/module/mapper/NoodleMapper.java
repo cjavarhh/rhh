@@ -40,4 +40,8 @@ public interface NoodleMapper {
     //删除一条面条信息
     @Update("update  noodle set is_deleted=1 ,update_time=#{updateTime} where id=#{id}")
     int noodleDelete(@Param("id") BigInteger id,@Param("updateTime") Integer updateTime);
+
+    List<Noodle> getList(@Param("keyword") String keyword);
+
+
 }

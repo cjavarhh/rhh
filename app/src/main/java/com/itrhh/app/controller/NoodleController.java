@@ -24,7 +24,7 @@ import java.util.List;
  */
 @RestController
 public class NoodleController {
-    private  Integer total =7;
+    //private  Integer total =7;
     //String dbCoverImage="url1$url2$url3";
     //String[] imageArray=dbCoverImage.split("\\$");
     //List<String>imageList= Arrays.asList(imageArray);
@@ -59,21 +59,27 @@ public class NoodleController {
 
 
     @RequestMapping("/noodle/list")
-    public ResultAppVo noodleAll(@RequestParam(name = "page") Integer page) {
+    public ResultAppVo noodleAll(@RequestParam(name = "page") Integer page,@RequestParam(value = "keyWorld" ,required = false) String keyWorld) {
         Integer pageSize=2;
         Integer offset=(page-1)*pageSize;
+        List<Noodle> noodleLike = noodleService.getNoodleLike(keyWorld);
         List<Noodle> allNoodleInfo = noodleService.getAllNoodleInfo(offset, pageSize);
         ArrayList<NoodleListVo> noodleAppListVos = new ArrayList<>();
         ResultAppVo resultAppVo = new ResultAppVo();
         NoodleListVo noodleAppListVo = new NoodleListVo();
         for (Noodle noodle : allNoodleInfo) {
-            noodleAppListVo.setNoodleImage(noodle.getNoodleImage());
+            String coverImages = noodle.getCoverImages();
+            String[] split = coverImages.split("\\$");
+            String s = split[0];
+            noodleAppListVo.setNoodleImage(s);
             noodleAppListVo.setNoodleId(noodle.getId());
             noodleAppListVo.setNoodleName(noodle.getNoodleName());
            // noodleAppListVo.setPrice(noodle.getPrice());
             noodleAppListVos.add(noodleAppListVo);
         }
-        Boolean isEnd= allNoodleInfo.size()>total?true:false;
+       // Boolean isEnd= allNoodleInfo.size()>total?true:false;
+        Boolean isEnd =allNoodleInfo.size()>=pageSize;
+
         noodleAppListVos.add(noodleAppListVo) ;
         resultAppVo.setData(noodleAppListVos);
         resultAppVo.setIsEnd(isEnd);

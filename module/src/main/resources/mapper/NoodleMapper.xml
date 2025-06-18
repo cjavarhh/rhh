@@ -6,7 +6,7 @@
         insert into noodle (
         <if test="noodle.noodleName !=null and noodle.noodleName !=''">noodle_name,</if>
         <if test="noodle.price !=null">price,</if>
-        <if test="noodle.noodleImage !=null and noodle.noodleImage !=''">noodle_image,</if>
+       <!-- <if test="noodle.noodleImage !=null and noodle.noodleImage !=''">noodle_image,</if> -->
         <if test="noodle.content !=null and noodle.content !=''">content,</if>
         <if test="noodle.noodleWeight !=null">noodle_weight,</if>
         <if test="noodle.coverImages !=null and noodle.coverImages !=''">cover_images,</if>
@@ -16,7 +16,7 @@
         values (
         <if test="noodle.noodleName !=null and noodle.noodleName !=''">#{noodle.noodleName},</if>
         <if test="noodle.price !=null">#{noodle.price},</if>
-        <if test="noodle.noodleImage !=null and noodle.noodleImage !=''">#{noodle.noodleImage},</if>
+       <!-- <if test="noodle.noodleImage !=null and noodle.noodleImage !=''">#{noodle.noodleImage},</if> -->
         <if test="noodle.content !=null and noodle.content !=''">#{noodle.content },</if>
         <if test="noodle.noodleWeight !=null">#{noodle.noodleWeight},</if>
         <if test="noodle.coverImages !=null and noodle.coverImages !=''">#{noodle.coverImages},</if>
@@ -31,12 +31,18 @@
         <if test="noodle.price !=null">,price=#{noodle.price}</if>
         <if test="noodle.noodleWeight !=null">,noodle_weight=#{noodle.noodleWeight}</if>
         <if test="noodle.coverImages !=null and noodle.coverImages !=''">,cover_images=#{noodle.coverImages}</if>
-        <if test="noodle.noodleImage!=null">,noodle_image=#{noodle.noodleImage}</if>
+       <!-- <if test="noodle.noodleImage!=null">,noodle_image=#{noodle.noodleImage}</if> -->
         <if test="noodle.updateTime !=null">,update_time=#{noodle.updateTime}</if>
         where id=#{noodle.id}
 
 
     </update>
+    <select id="getList" parameterType="string" resultType="com.itrhh.module.entity.Noodle">
+        select * from noodle
+        <if test="keyword != null and keyword !=''">
+            where noodle_name like concat ('%',#{keyword},'%')
+        </if>
+    </select>
     <!--
     <update id="noodleDelete"
             parameterType="com.itrhh.module.entity.Noodle">
@@ -44,6 +50,12 @@
 
     </update>
     -->
-
+<!--<select id="getLike" parameterType="String">
+    select * from noodle
+    <if test="keyWorld != null">
+       where noodle_name like concat ('%'#{keyWorld}'%')
+    </if>
+</select>
+-->
 
 </mapper>

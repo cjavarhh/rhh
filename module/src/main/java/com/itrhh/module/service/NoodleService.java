@@ -32,13 +32,13 @@ public class NoodleService {
     @Resource
     private NoodleMapper mapper;
 
-    public int createNoodle(String name,Integer price, String noodleImage,String content,Integer weight ,String coverImages){
+    public int createNoodle(String name,Integer price,String content,Integer weight ,String coverImages){
         int timestamp =(int) (System.currentTimeMillis()/100);
         Noodle noodle = new Noodle();
         noodle.setNoodleName(name);
         noodle.setPrice(price);
         noodle.setNoodleWeight(weight);
-        noodle.setNoodleImage(noodleImage);
+        //noodle.setNoodleImage(noodleImage);
         noodle.setContent(content);
         noodle.setCoverImages(coverImages);
         noodle.setCreateTime(timestamp);
@@ -50,7 +50,7 @@ public class NoodleService {
 
 
 
-    public int updateNoodle(BigInteger id, String name, Integer price, String noodleImage, String content, Integer weight, String coverImages){
+    public int updateNoodle(BigInteger id, String name, Integer price, String content, Integer weight, String coverImages){
         int timestamp =(int) (System.currentTimeMillis()/100);
         Noodle noodle = new Noodle();
         noodle.setId(id);
@@ -58,12 +58,18 @@ public class NoodleService {
         noodle.setNoodleWeight(weight);
         noodle.setPrice(price);
         noodle.setContent(content);
-        noodle.setNoodleImage(noodleImage);
+       // noodle.setNoodleImage(noodleImage);
         noodle.setCoverImages(coverImages);
         noodle.setUpdateTime(timestamp);
         return mapper.noodleUpdate(noodle);
     }
     public int deleteNoodle(BigInteger id){
         return mapper.noodleDelete(id,(int)(System.currentTimeMillis()/100));
+    }
+
+
+    public List<Noodle> getNoodleLike (String keyWorld){
+
+        return  nooodleMapper.getList(keyWorld);
     }
 }

@@ -26,7 +26,7 @@ import java.util.List;
  * @Version 1.0.0
  */
 @RestController
-public class NoodleConsoleController {
+public class NoodleController {
     @Autowired
     private NoodleService noodleService;
 
@@ -35,12 +35,13 @@ public class NoodleConsoleController {
                                @RequestParam(name = "price") Integer price,
                                @RequestParam(name = "weight") Integer weight,
                                @RequestParam(name = "coverImages") String coverImages,
-                               @RequestParam(name = "content") String content,
-                               @RequestParam(name = "noodleImage") String noodleImage) {
+                               @RequestParam(name = "content") String content
+                              // @RequestParam(name = "noodleImage") String noodleImage
+                               ) {
         String nameTrim = noodleName.trim();
 
 
-        int result = noodleService.createNoodle(noodleName, price, noodleImage, content, weight, coverImages);
+        int result = noodleService.createNoodle(noodleName, price,  content, weight, coverImages);
 
         return 1 == result ? "成功" : "失败";
     }
@@ -52,10 +53,11 @@ public class NoodleConsoleController {
                                @RequestParam(name = "price") Integer price,
                                @RequestParam(name = "weight") Integer weight,
                                @RequestParam(name = "coverImages") String coverImages,
-                               @RequestParam(name = "content") String content,
-                               @RequestParam(name = "noodleImage") String noodleImage) {
+                               @RequestParam(name = "content") String content
+                               //@RequestParam(name = "noodleImage") String noodleImage
+                               ) {
         String nameTrim = noodleName.trim();
-        int result = noodleService.updateNoodle(noodleId, noodleName, price, noodleImage, content, weight, coverImages);
+        int result = noodleService.updateNoodle(noodleId, noodleName, price,  content, weight, coverImages);
         return 1 == result ? "成功" : "失败";
     }
 
@@ -66,7 +68,7 @@ public class NoodleConsoleController {
     }
 
 
-    @RequestMapping("/noodle/Info")
+    @RequestMapping("/noodle/info")
     public NoodleInfoVo noodleConsoleInfo(@RequestParam(name = "noodleId") BigInteger noodleId) {
         //String dbCoverImage="url1$url2$url3";
         //String[] imageArray=dbCoverImage.split("\\$");
@@ -115,7 +117,10 @@ public class NoodleConsoleController {
         ResultConsoleVo<Object> resultConsoleVo = new ResultConsoleVo<>();
         // NoodleConsoleInfoVo noodleConsoleInfoVo = new NoodleConsoleInfoVo();
         for (Noodle noodle : allNoodleInfo) {
-            noodleConsoleListVo.setNoodleImage(noodle.getNoodleImage());
+            String coverImages = noodle.getCoverImages();
+            String[] split = coverImages.split("\\$");
+            String s = split[0];
+            noodleConsoleListVo.setNoodleImage(s);
             noodleConsoleListVo.setNoodleId(noodle.getId());
             // noodleConsoleListVo.setNoodleId(noodle.getId());
             noodleConsoleListVo.setNoodleName(noodle.getNoodleName());
