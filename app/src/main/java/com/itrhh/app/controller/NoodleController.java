@@ -42,6 +42,7 @@ public class NoodleController {
         NoodleInfoVo noodleInfoVo = new NoodleInfoVo();
         if (noodleInfoById == null) {
             System.out.println("没有拿到指定的id");
+            System.out.println("啦啦");
             return null;
         }
         String coverImages = noodleInfoById.getCoverImages();
