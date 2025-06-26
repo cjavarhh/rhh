@@ -47,6 +47,12 @@
             <version>1.18.24</version>  <!-- 请根据最新版本进行调整 -->
             <scope>provided</scope>
         </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+            <version>3.5.12</version>
+        </dependency>
     </dependencies>
 
     <parent>

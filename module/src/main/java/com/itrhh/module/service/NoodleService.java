@@ -72,4 +72,22 @@ public class NoodleService {
 
         return  nooodleMapper.getList(keyWorld);
     }
+
+
+    //根据id提取
+    public  Noodle extractById(Long id){
+        return mapper.extractById(id);
+    }
+    //更新
+    public boolean update(Noodle noodle){
+        return mapper.update(noodle);
+    }
+    //插入
+    public  boolean insert(Noodle noodle){
+        return mapper.insert(noodle);
+    }
+    //删除
+    public boolean deleted(Long id){
+        return mapper.deleted(id);
+    }
 }
