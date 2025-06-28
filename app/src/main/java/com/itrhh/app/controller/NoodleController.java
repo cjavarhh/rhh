@@ -60,12 +60,12 @@ public class NoodleController {
 
 
     @RequestMapping("/noodle/list")
-    public ResultAppVo noodleAll(@RequestParam(name = "page") Integer page, @RequestParam(value = "keyWord", required = false) String keyWord) {
+    public ResultAppVo noodleAll(@RequestParam(name = "page") Integer page, @RequestParam(value = "keyword", required = false) String keyword) {
         Integer pageSize = 2;
         Integer offset = (page - 1) * pageSize;
         // List<Noodle> noodleLike = noodleService.getNoodleLike(keyWord);
         //List<Noodle> allNoodleInfo = noodleService.getAllNoodleInfo(offset, pageSize);
-        PageInfo<Noodle> noodleList = noodleService.getNoodleList(page, pageSize, keyWord);
+        PageInfo<Noodle> noodleList = noodleService.getNoodleList(page, pageSize, keyword);
         List<Noodle> allNoodleInfo = noodleList.getList();
 
 

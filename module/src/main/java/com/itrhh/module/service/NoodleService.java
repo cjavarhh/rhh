@@ -69,7 +69,7 @@ public class NoodleService {
         return mapper.noodleDelete(id,(int)(System.currentTimeMillis()/100));
     }
 
-
+//模糊查询
     public List<Noodle> getNoodleLike (String keyWord){
 
         return  nooodleMapper.getList(keyWord);
