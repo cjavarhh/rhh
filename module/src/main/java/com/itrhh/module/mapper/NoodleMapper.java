@@ -21,39 +21,36 @@ import java.util.List;
  */
 @Mapper
 public interface NoodleMapper {
- //查询编号面条信息
- @Select("select *from noodle where id=#{id} and is_deleted=0")
- Noodle getById(@Param("id") BigInteger id);
+    //查询编号面条信息
+    @Select("select *from noodle where id=#{id} and is_deleted=0")
+    Noodle getById(@Param("id") BigInteger id);
 
- //分页查询所有面条信息
- // @Select("select *from noodle limit #{offset},#{pageSize} where is_deleted=0")
- @Select("select * from noodle where is_deleted = 0 limit #{offset}, #{pageSize}")
- //List<Noodle> getAll();
- List<Noodle> getAll(@Param("offset") Integer offset, @Param("pageSize") Integer pageSize);
+    //分页查询所有面条信息
+    // @Select("select *from noodle limit #{offset},#{pageSize} where is_deleted=0")
+    @Select("select * from noodle where is_deleted = 0 limit #{offset}, #{pageSize}")
+    //List<Noodle> getAll();
+    List<Noodle> getAll(@Param("offset") Integer offset, @Param("pageSize") Integer pageSize);
 
+    //增加一个面条信息
+    int noodleInsert(@Param("noodle") Noodle noodle);
 
- //增加一个面条信息
- int noodleInsert(@Param("noodle") Noodle noodle);
+    //修改一个面条信息
+    int noodleUpdate(@Param("noodle") Noodle noodle);
 
- //修改一个面条信息
- int noodleUpdate(@Param("noodle") Noodle noodle);
+    //删除一条面条信息
+    @Update("update  noodle set is_deleted=1 ,update_time=#{updateTime} where id=#{id}")
+    int noodleDelete(@Param("id") BigInteger id, @Param("updateTime") Integer updateTime);
 
- //删除一条面条信息
- @Update("update  noodle set is_deleted=1 ,update_time=#{updateTime} where id=#{id}")
- int noodleDelete(@Param("id") BigInteger id, @Param("updateTime") Integer updateTime);
-//模糊查询
- List<Noodle> getList(@Param("keyword") String keyword);
+    //模糊查询
+    List<Noodle> getList(@Param("keyword") String keyword);
 
- @Select("select noodle_name, price from noodle wehere id=#{id} and is_deleted=0  ")
- Noodle extractById(@Param("id") Long id);
+    @Select("select noodle_name, price from noodle wehere id=#{id} and is_deleted=0  ")
+    Noodle extractById(@Param("id") Long id);
 
- boolean update (@Param("noodle") Noodle noodle);
+    boolean update(@Param("noodle") Noodle noodle);
 
- boolean insert(@Param("noodle") Noodle noodle);
+    boolean insert(@Param("noodle") Noodle noodle);
 
- @Update("update  noodel set is_deleted=1 wehere id=#{id}")
- boolean delete(@Param(("id")) Long id);
-
-
-
+    @Update("update  noodel set is_deleted=1 wehere id=#{id}")
+    boolean delete(@Param(("id")) Long id);
 }

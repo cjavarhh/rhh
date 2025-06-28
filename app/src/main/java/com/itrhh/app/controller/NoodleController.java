@@ -57,8 +57,6 @@ public class NoodleController {
         noodleInfoVo.setWeight(noodleInfoById.getNoodleWeight());
         return noodleInfoVo;
     }
-
-
     @RequestMapping("/noodle/list")
     public ResultAppVo noodleAll(@RequestParam(name = "page") Integer page, @RequestParam(value = "keyword", required = false) String keyword) {
         Integer pageSize = 2;
@@ -67,8 +65,6 @@ public class NoodleController {
         //List<Noodle> allNoodleInfo = noodleService.getAllNoodleInfo(offset, pageSize);
         PageInfo<Noodle> noodleList = noodleService.getNoodleList(page, pageSize, keyword);
         List<Noodle> allNoodleInfo = noodleList.getList();
-
-
         ArrayList<NoodleListVo> noodleAppListVos = new ArrayList<>();
         ResultAppVo resultAppVo = new ResultAppVo();
         NoodleListVo noodleAppListVo = new NoodleListVo();
@@ -84,12 +80,9 @@ public class NoodleController {
         }
         // Boolean isEnd= allNoodleInfo.size()>total?true:false;
         Boolean isEnd = allNoodleInfo.size() < pageSize;
-
         noodleAppListVos.add(noodleAppListVo);
         resultAppVo.setData(noodleAppListVos);
         resultAppVo.setIsEnd(isEnd);
         return resultAppVo;
     }
-
-
 }

@@ -22,20 +22,21 @@ public class NoodleService {
     @Resource
     private NoodleMapper nooodleMapper;
 
-    public List<Noodle> getAllNoodleInfo(Integer offset,Integer pageSize) {
+    public List<Noodle> getAllNoodleInfo(Integer offset, Integer pageSize) {
 
-        return nooodleMapper.getAll(offset,pageSize);
+        return nooodleMapper.getAll(offset, pageSize);
     }
 
-    public  Noodle getNoodleInfoById(BigInteger id){
+    public Noodle getNoodleInfoById(BigInteger id) {
 
         return nooodleMapper.getById(id);
     }
+
     @Resource
     private NoodleMapper mapper;
 
-    public int createNoodle(String name,Integer price,String content,Integer weight ,String coverImages){
-        int timestamp =(int) (System.currentTimeMillis()/100);
+    public int createNoodle(String name, Integer price, String content, Integer weight, String coverImages) {
+        int timestamp = (int) (System.currentTimeMillis() / 100);
         Noodle noodle = new Noodle();
         noodle.setNoodleName(name);
         noodle.setPrice(price);
@@ -46,57 +47,58 @@ public class NoodleService {
         noodle.setCreateTime(timestamp);
         noodle.setUpdateTime(timestamp);
         noodle.setIsDeleted(0);
-        return  mapper.noodleInsert(noodle);
+        return mapper.noodleInsert(noodle);
 
     }
-
-
-
-    public int updateNoodle(BigInteger id, String name, Integer price, String content, Integer weight, String coverImages){
-        int timestamp =(int) (System.currentTimeMillis()/100);
+    public int updateNoodle(BigInteger id, String name, Integer price, String content, Integer weight, String coverImages) {
+        int timestamp = (int) (System.currentTimeMillis() / 100);
         Noodle noodle = new Noodle();
         noodle.setId(id);
         noodle.setNoodleName(name);
         noodle.setNoodleWeight(weight);
         noodle.setPrice(price);
         noodle.setContent(content);
-       // noodle.setNoodleImage(noodleImage);
+        // noodle.setNoodleImage(noodleImage);
         noodle.setCoverImages(coverImages);
         noodle.setUpdateTime(timestamp);
         return mapper.noodleUpdate(noodle);
     }
-    public int deleteNoodle(BigInteger id){
-        return mapper.noodleDelete(id,(int)(System.currentTimeMillis()/100));
+
+    public int deleteNoodle(BigInteger id) {
+        return mapper.noodleDelete(id, (int) (System.currentTimeMillis() / 100));
     }
 
-//模糊查询
-    public List<Noodle> getNoodleLike (String keyWord){
+    //模糊查询
+    public List<Noodle> getNoodleLike(String keyWord) {
 
-        return  nooodleMapper.getList(keyWord);
+        return nooodleMapper.getList(keyWord);
     }
+
     //分页模糊查询
-    public PageInfo<Noodle>getNoodleList(Integer page ,Integer pageSize,String keyWord){
-        PageHelper.startPage(page,pageSize);
+    public PageInfo<Noodle> getNoodleList(Integer page, Integer pageSize, String keyWord) {
+        PageHelper.startPage(page, pageSize);
         List<Noodle> noodleList = mapper.getList(keyWord);
         return new PageInfo<>(noodleList);
 
     }
 
-
     //根据id提取
-    public  Noodle extractById(Long id){
+    public Noodle extractById(Long id) {
         return mapper.extractById(id);
     }
+
     //更新
-    public boolean update(Noodle noodle){
+    public boolean update(Noodle noodle) {
         return mapper.update(noodle);
     }
+
     //插入
-    public  boolean insert(Noodle noodle){
+    public boolean insert(Noodle noodle) {
         return mapper.insert(noodle);
     }
+
     //删除
-    public boolean delete(Long id){
+    public boolean delete(Long id) {
         return mapper.delete(id);
     }
 }

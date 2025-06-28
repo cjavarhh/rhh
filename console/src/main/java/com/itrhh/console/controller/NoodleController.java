@@ -29,24 +29,21 @@ import java.util.List;
 public class NoodleController {
     @Autowired
     private NoodleService noodleService;
-
     @RequestMapping("/noodle/create")
     public String noodleCreate(@RequestParam(name = "noodleName") String noodleName,
                                @RequestParam(name = "price") Integer price,
                                @RequestParam(name = "weight") Integer weight,
                                @RequestParam(name = "coverImages") String coverImages,
                                @RequestParam(name = "content") String content
-                              // @RequestParam(name = "noodleImage") String noodleImage
-                               ) {
+                               // @RequestParam(name = "noodleImage") String noodleImage
+    ) {
         String nameTrim = noodleName.trim();
 
 
-        int result = noodleService.createNoodle(noodleName, price,  content, weight, coverImages);
+        int result = noodleService.createNoodle(noodleName, price, content, weight, coverImages);
 
         return 1 == result ? "成功" : "失败";
     }
-
-
     @RequestMapping("/noodle/update")
     public String noodleUpdate(@RequestParam(name = "noodleId") BigInteger noodleId,
                                @RequestParam(name = "noodleName") String noodleName,
@@ -55,19 +52,16 @@ public class NoodleController {
                                @RequestParam(name = "coverImages") String coverImages,
                                @RequestParam(name = "content") String content
                                //@RequestParam(name = "noodleImage") String noodleImage
-                               ) {
+    ) {
         String nameTrim = noodleName.trim();
-        int result = noodleService.updateNoodle(noodleId, noodleName, price,  content, weight, coverImages);
+        int result = noodleService.updateNoodle(noodleId, noodleName, price, content, weight, coverImages);
         return 1 == result ? "成功" : "失败";
     }
-
     @RequestMapping("/noodle/delete")
     public String noodleDelete(@RequestParam(name = "noodleId") BigInteger noodleId) {
         int result = noodleService.deleteNoodle(noodleId);
         return 1 == result ? "成功" : "失败";
     }
-
-
     @RequestMapping("/noodle/info")
     public NoodleInfoVo noodleConsoleInfo(@RequestParam(name = "noodleId") BigInteger noodleId) {
         //String dbCoverImage="url1$url2$url3";
@@ -92,26 +86,21 @@ public class NoodleController {
         noodleConsoleInfoVo.setWeight(noodleInfoConsoleById.getNoodleWeight());
         LocalDateTime now = LocalDateTime.now();
         LocalDateTime updateNow = now.plusHours(1);
-        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         String createTime = now.format(formatter);
         String updateTime = updateNow.format(formatter);
-
-
         noodleConsoleInfoVo.setCreateTime(createTime);
         noodleConsoleInfoVo.setUpdateTime(updateTime);
         return noodleConsoleInfoVo;
-
     }
-
     @RequestMapping("/noodle/list")
     public ResultConsoleVo noodleConsoleAll(@RequestParam(name = "page") Integer page) {
-        Integer pageSize=2;
-        Integer offset=(page-1)*pageSize;
+        Integer pageSize = 2;
+        Integer offset = (page - 1) * pageSize;
 
         List<Noodle> allNoodleInfo = noodleService.getAllNoodleInfo(offset, pageSize);
         ArrayList<NoodleListVo> noodleAppListVos = new ArrayList<>();
         //NoodleConsoleInfoVo noodleConsoleInfoVo = new NoodleConsoleInfoVo();
-
         //NoodleAppListVo noodleAppListVo = new NoodleAppListVo();
         NoodleListVo noodleConsoleListVo = new NoodleListVo();
         ResultConsoleVo<Object> resultConsoleVo = new ResultConsoleVo<>();

@@ -29,8 +29,8 @@ public class Noodle {
     private String content;
 
     private Integer noodleWeight;
-
-    private String coverImages;//轮播图
+    //轮播图
+    private String coverImages;
 
     private Integer createTime;
 
