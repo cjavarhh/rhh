@@ -41,7 +41,7 @@ public interface NoodleMapper {
  //删除一条面条信息
  @Update("update  noodle set is_deleted=1 ,update_time=#{updateTime} where id=#{id}")
  int noodleDelete(@Param("id") BigInteger id, @Param("updateTime") Integer updateTime);
-
+//模糊查询
  List<Noodle> getList(@Param("keyword") String keyword);
 
  @Select("select noodle_name, price from noodle wehere id=#{id} and is_deleted=0  ")
@@ -52,7 +52,7 @@ public interface NoodleMapper {
  boolean insert(@Param("noodle") Noodle noodle);
 
  @Update("update  noodel set is_deleted=1 wehere id=#{id}")
- boolean deleted(@Param(("id")) Long id);
+ boolean delete(@Param(("id")) Long id);
 
 
 

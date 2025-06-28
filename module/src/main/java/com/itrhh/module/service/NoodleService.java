@@ -1,5 +1,7 @@
 package com.itrhh.module.service;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.itrhh.module.entity.Noodle;
 import com.itrhh.module.mapper.NoodleMapper;
 import org.springframework.stereotype.Service;
@@ -68,9 +70,16 @@ public class NoodleService {
     }
 
 
-    public List<Noodle> getNoodleLike (String keyWorld){
+    public List<Noodle> getNoodleLike (String keyWord){
 
-        return  nooodleMapper.getList(keyWorld);
+        return  nooodleMapper.getList(keyWord);
+    }
+    //分页模糊查询
+    public PageInfo<Noodle>getNoodleList(Integer page ,Integer pageSize,String keyWord){
+        PageHelper.startPage(page,pageSize);
+        List<Noodle> noodleList = mapper.getList(keyWord);
+        return new PageInfo<>(noodleList);
+
     }
 
 
@@ -87,7 +96,7 @@ public class NoodleService {
         return mapper.insert(noodle);
     }
     //删除
-    public boolean deleted(Long id){
-        return mapper.deleted(id);
+    public boolean delete(Long id){
+        return mapper.delete(id);
     }
 }

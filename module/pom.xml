@@ -29,6 +29,11 @@
             <version>1.18.24</version>  <!-- 请根据最新版本进行调整 -->
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>com.github.pagehelper</groupId>
+            <artifactId>pagehelper-spring-boot-starter</artifactId>
+            <version>1.2.12</version>
+        </dependency>
 
 
     </dependencies>

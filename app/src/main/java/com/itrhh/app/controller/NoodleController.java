@@ -1,5 +1,6 @@
 package com.itrhh.app.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.itrhh.app.domain.NoodleListVo;
 import com.itrhh.app.domain.NoodleInfoVo;
 import com.itrhh.module.entity.Noodle;
@@ -59,11 +60,15 @@ public class NoodleController {
 
 
     @RequestMapping("/noodle/list")
-    public ResultAppVo noodleAll(@RequestParam(name = "page") Integer page,@RequestParam(value = "keyWorld" ,required = false) String keyWorld) {
-        Integer pageSize=2;
-        Integer offset=(page-1)*pageSize;
-        List<Noodle> noodleLike = noodleService.getNoodleLike(keyWorld);
-        List<Noodle> allNoodleInfo = noodleService.getAllNoodleInfo(offset, pageSize);
+    public ResultAppVo noodleAll(@RequestParam(name = "page") Integer page, @RequestParam(value = "keyWord", required = false) String keyWord) {
+        Integer pageSize = 2;
+        Integer offset = (page - 1) * pageSize;
+        // List<Noodle> noodleLike = noodleService.getNoodleLike(keyWord);
+        //List<Noodle> allNoodleInfo = noodleService.getAllNoodleInfo(offset, pageSize);
+        PageInfo<Noodle> noodleList = noodleService.getNoodleList(page, pageSize, keyWord);
+        List<Noodle> allNoodleInfo = noodleList.getList();
+
+
         ArrayList<NoodleListVo> noodleAppListVos = new ArrayList<>();
         ResultAppVo resultAppVo = new ResultAppVo();
         NoodleListVo noodleAppListVo = new NoodleListVo();
@@ -74,13 +79,13 @@ public class NoodleController {
             noodleAppListVo.setNoodleImage(s);
             noodleAppListVo.setNoodleId(noodle.getId());
             noodleAppListVo.setNoodleName(noodle.getNoodleName());
-           // noodleAppListVo.setPrice(noodle.getPrice());
+            // noodleAppListVo.setPrice(noodle.getPrice());
             noodleAppListVos.add(noodleAppListVo);
         }
-       // Boolean isEnd= allNoodleInfo.size()>total?true:false;
-        Boolean isEnd =allNoodleInfo.size()>=pageSize;
+        // Boolean isEnd= allNoodleInfo.size()>total?true:false;
+        Boolean isEnd = allNoodleInfo.size() < pageSize;
 
-        noodleAppListVos.add(noodleAppListVo) ;
+        noodleAppListVos.add(noodleAppListVo);
         resultAppVo.setData(noodleAppListVos);
         resultAppVo.setIsEnd(isEnd);
         return resultAppVo;
