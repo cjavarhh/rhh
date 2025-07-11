@@ -3,6 +3,7 @@ package com.itrhh.module.entity;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
+
 import java.math.BigInteger;
 import java.util.List;
 
@@ -16,8 +17,10 @@ import java.util.List;
 
 //实体类
 @Data
+
 @Accessors(chain = true)
 public class Noodle {
+
     private BigInteger id;
 
     private String noodleName;

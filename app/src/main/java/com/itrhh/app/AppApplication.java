@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 
-@SpringBootApplication(scanBasePackages = {"com.itrhh.module", "com.itrhh.app.domain", "com.itrhh.app.controller",})
+@SpringBootApplication(scanBasePackages = {"com.itrhh.module", "com.itrhh.app.domain","com.itrhh.app.controller"})
 @MapperScan("com.itrhh.module.mapper")
 public class AppApplication {
     public static void main(String[] args) {

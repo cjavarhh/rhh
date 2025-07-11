@@ -1,11 +1,7 @@
 package com.itrhh.module.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.itrhh.module.entity.Noodle;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
+import org.apache.ibatis.annotations.*;
 import org.yaml.snakeyaml.events.Event;
 
 import java.math.BigInteger;
@@ -19,7 +15,7 @@ import java.util.List;
  * @Date 2024/10/17 22:41
  * @Version 1.0.0
  */
-@Mapper
+
 public interface NoodleMapper {
     //查询编号面条信息
     @Select("select *from noodle where id=#{id} and is_deleted=0")
@@ -48,8 +44,9 @@ public interface NoodleMapper {
     Noodle extractById(@Param("id") Long id);
 
     boolean update(@Param("noodle") Noodle noodle);
-
-    boolean insert(@Param("noodle") Noodle noodle);
+   // @Options(useGeneratedKeys = true, keyProperty = "id")
+    @Options(useGeneratedKeys = true, keyProperty = "id")
+   int insert(@Param("noodle") Noodle noodle);
 
     @Update("update  noodel set is_deleted=1 wehere id=#{id}")
     boolean delete(@Param(("id")) Long id);
