@@ -107,11 +107,11 @@ public class NoodleService {
     }
 
     //合并新增修改方法
-    public BigInteger edit(BigInteger id, String noodleName, Integer price, String content, Integer weight, String coverImages) {
+    public BigInteger edit(BigInteger noodleId, String noodleName, Integer price, String content, Integer weight, String coverImages) {
         //判断参数是否合法
         NoodleJudgment.validateEntity(noodleName, coverImages, price);
         // 判断是新增还是更新
-        if (id == null) {
+        if (noodleId == null) {
             // 新增逻辑
             int timestamp = (int) (System.currentTimeMillis() / 100);
             Noodle noodle = new Noodle();
@@ -129,12 +129,12 @@ public class NoodleService {
 
         } else {
             // 更新逻辑
-            Noodle byId = nooodleMapper.getById(id);
+            Noodle byId = nooodleMapper.getById(noodleId);
             BigInteger id1 = byId.getId();
-            if (id1 != id) {
+            if (id1 != noodleId) {
                 int timestamp = (int) (System.currentTimeMillis() / 100);
                 Noodle noodle = new Noodle();
-                noodle.setId(id);
+                noodle.setId(noodleId);
                 noodle.setNoodleName(noodleName);
                 noodle.setNoodleWeight(weight);
                 noodle.setPrice(price);
@@ -143,7 +143,7 @@ public class NoodleService {
                 noodle.setCoverImages(coverImages);
                 noodle.setUpdateTime(timestamp);
                 mapper.update(noodle);
-                return id;
+                return noodleId;
             }
             throw new RuntimeException("id不存在，无法更新");
         }
