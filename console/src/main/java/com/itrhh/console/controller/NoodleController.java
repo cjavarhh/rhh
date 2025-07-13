@@ -2,6 +2,7 @@ package com.itrhh.console.controller;
 
 import com.itrhh.console.domain.NoodleInfoVo;
 import com.itrhh.console.domain.NoodleListVo;
+import com.itrhh.console.utils.NoodleJudgment;
 import com.itrhh.module.entity.Noodle;
 import com.itrhh.module.service.NoodleService;
 import com.itrhh.console.domain.ResultConsoleVo;
@@ -41,6 +42,7 @@ public class NoodleController {
                                // @RequestParam(name = "noodleImage") String noodleImage
     ) {
         String nameTrim = noodleName.trim();
+        NoodleJudgment.validateEntity(noodleName,coverImages,price);
         try {
 
             BigInteger id = noodleService.edit(null, noodleName, price, content, weight, coverImages);
@@ -61,7 +63,7 @@ public class NoodleController {
                                //@RequestParam(name = "noodleImage") String noodleImage
     ) {
         String nameTrim = noodleName.trim();
-        BigInteger edit = noodleService.edit(noodleId, noodleName, price, content, weight, coverImages);
+        NoodleJudgment.validateEntity(noodleName,coverImages,price);
         try {
             BigInteger editUpdate = noodleService.edit(noodleId, noodleName, price, content, weight, coverImages);
             return ResponseEntity.ok(noodleId);
