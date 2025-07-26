@@ -3,10 +3,14 @@ package com.itrhh.module.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import com.itrhh.module.config.ResourceNotFoundException;
+import com.itrhh.module.entity.Category;
 import com.itrhh.module.entity.Noodle;
 import com.itrhh.module.mapper.NoodleMapper;
 import com.itrhh.module.utils.NoodleJudgment;
+import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.math.BigInteger;
@@ -107,15 +111,18 @@ public class NoodleService {
     }
 
     //合并新增修改方法
-    public BigInteger edit(BigInteger noodleId, String noodleName, Integer price, String content, Integer weight, String coverImages) {
+    @Transactional
+    public BigInteger edit(BigInteger noodleId, String noodleName, Integer price, String content, Integer weight, String coverImages, Integer cid) {
         //判断参数是否合法
         NoodleJudgment.validateEntity(noodleName, coverImages, price);
+        validateCategoryId(cid);
         // 判断是新增还是更新
         if (noodleId == null) {
             // 新增逻辑
             int timestamp = (int) (System.currentTimeMillis() / 100);
             Noodle noodle = new Noodle();
             noodle.setNoodleName(noodleName);
+            noodle.setCid(cid);
             noodle.setPrice(price);
             noodle.setNoodleWeight(weight);
             //noodle.setNoodleImage(noodleImage);
@@ -142,10 +149,31 @@ public class NoodleService {
                 // noodle.setNoodleImage(noodleImage);
                 noodle.setCoverImages(coverImages);
                 noodle.setUpdateTime(timestamp);
+                noodle.setCid(cid);
                 mapper.update(noodle);
                 return noodleId;
             }
             throw new RuntimeException("id不存在，无法更新");
+        }
+    }
+
+    public Category getCategory(Integer cid) {
+        Category category = nooodleMapper.selectCategoryById(cid);
+        return category;
+    }
+
+    public List<Category> getCategoryAll() {
+        return nooodleMapper.getAllCategory();
+    }
+
+    //校验分类id是否存在
+    public void validateCategoryId(Integer cid) {
+        if (cid == null) {
+            throw new IllegalArgumentException("分类Id不能为空");
+        }
+        int i = nooodleMapper.selectById(cid);
+        if (i == 0) {
+            throw new ResourceNotFoundException("分类id不存在");
         }
     }
 }

@@ -1,5 +1,6 @@
 package com.itrhh.module.mapper;
 
+import com.itrhh.module.entity.Category;
 import com.itrhh.module.entity.Noodle;
 import org.apache.ibatis.annotations.*;
 import org.yaml.snakeyaml.events.Event;
@@ -15,7 +16,7 @@ import java.util.List;
  * @Date 2024/10/17 22:41
  * @Version 1.0.0
  */
-
+@Mapper
 public interface NoodleMapper {
     //查询编号面条信息
     @Select("select *from noodle where id=#{id} and is_deleted=0")
@@ -50,4 +51,14 @@ public interface NoodleMapper {
 
     @Update("update  noodel set is_deleted=1 wehere id=#{id}")
     boolean delete(@Param(("id")) Long id);
+
+    @Select("select *from category where cid=#{cid} and is_deleted=0")
+    Category selectCategoryById(@Param("cid") Integer cid);
+
+    @Select("select *from category where  is_deleted=0")
+    List<Category>getAllCategory ();
+
+    //检查分类Id是否存在
+    @Select("select *from category where cid=#{cid} and is_deleted=0")
+    int selectById(@Param("cid") Integer cid);
 }

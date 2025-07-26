@@ -18,4 +18,6 @@ public class NoodleInfoVo {
     private Integer price;
     private Integer weight;
     private String content;
+    private String categoryName;
+    private String categoryImage;
 }

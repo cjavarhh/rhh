@@ -14,13 +14,13 @@ public class NoodleJudgment {
         if (optional.isPresent()) {
             throw new NullPointerException("空指针异常");
         }*/
-        if (noodleName != null && !noodleName.isEmpty()) {
+        if (noodleName == null || noodleName.isEmpty()) {
             throw new RuntimeException("字段不能为空");
         }
-        if (price != null && price != 0) {
+        if (price == null || price == 0) {
             throw new RuntimeException("数字不合规");
         }
-        if (coverImages != null && !coverImages.isEmpty()) {
+        if (coverImages == null || coverImages.isEmpty()) {
             throw new RuntimeException("不为空");
         }
     }

@@ -1,8 +1,10 @@
 package com.itrhh.console.controller;
 
+import com.itrhh.console.domain.CategoryInfoVo;
 import com.itrhh.console.domain.NoodleInfoVo;
 import com.itrhh.console.domain.NoodleListVo;
 import com.itrhh.console.utils.NoodleJudgment;
+import com.itrhh.module.entity.Category;
 import com.itrhh.module.entity.Noodle;
 import com.itrhh.module.service.NoodleService;
 import com.itrhh.console.domain.ResultConsoleVo;
@@ -35,17 +37,18 @@ public class NoodleController {
 
     @RequestMapping("/noodle/create")
     public ResponseEntity<?> noodleCreate(@RequestParam(name = "noodleName") String noodleName,
-                               @RequestParam(name = "price") Integer price,
-                               @RequestParam(name = "weight") Integer weight,
-                               @RequestParam(name = "coverImages") String coverImages,
-                               @RequestParam(name = "content") String content
-                               // @RequestParam(name = "noodleImage") String noodleImage
+                                          @RequestParam(name = "price") Integer price,
+                                          @RequestParam(name = "weight") Integer weight,
+                                          @RequestParam(name = "coverImages") String coverImages,
+                                          @RequestParam(name = "content") String content,
+                                          @RequestParam(name = "cid") Integer cid
+                                          // @RequestParam(name = "noodleImage") String noodleImage
     ) {
         String nameTrim = noodleName.trim();
-        NoodleJudgment.validateEntity(noodleName,coverImages,price);
+        NoodleJudgment.validateEntity(noodleName, coverImages, price);
         try {
 
-            BigInteger id = noodleService.edit(null, noodleName, price, content, weight, coverImages);
+            BigInteger id = noodleService.edit(null, noodleName, price, content, weight, coverImages, cid);
             return ResponseEntity.ok(id);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -55,17 +58,18 @@ public class NoodleController {
 
     @RequestMapping("/noodle/update")
     public ResponseEntity<?> noodleUpdate(@RequestParam(name = "noodleId") BigInteger noodleId,
-                               @RequestParam(name = "noodleName") String noodleName,
-                               @RequestParam(name = "price") Integer price,
-                               @RequestParam(name = "weight") Integer weight,
-                               @RequestParam(name = "coverImages") String coverImages,
-                               @RequestParam(name = "content") String content
-                               //@RequestParam(name = "noodleImage") String noodleImage
+                                          @RequestParam(name = "noodleName") String noodleName,
+                                          @RequestParam(name = "price") Integer price,
+                                          @RequestParam(name = "weight") Integer weight,
+                                          @RequestParam(name = "coverImages") String coverImages,
+                                          @RequestParam(name = "content") String content,
+                                          @RequestParam(name = "cid") Integer cid
+                                          //@RequestParam(name = "noodleImage") String noodleImage
     ) {
         String nameTrim = noodleName.trim();
-        NoodleJudgment.validateEntity(noodleName,coverImages,price);
+        NoodleJudgment.validateEntity(noodleName, coverImages, price);
         try {
-            BigInteger editUpdate = noodleService.edit(noodleId, noodleName, price, content, weight, coverImages);
+            BigInteger editUpdate = noodleService.edit(noodleId, noodleName, price, content, weight, coverImages, cid);
             return ResponseEntity.ok(noodleId);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -137,6 +141,12 @@ public class NoodleController {
         resultConsoleVo.setTotal(allNoodleInfo.size());
         return resultConsoleVo;
     }
+
+
+
+
+
+
 
 /*    @RequestMapping("/noodle/edit")
     public BigInteger editCreat (@RequestParam(name = "id") BigInteger id,

@@ -12,6 +12,7 @@
         <if test="noodle.coverImages !=null and noodle.coverImages !=''">cover_images,</if>
         <if test="noodle.updateTime !=null">update_time,</if>
         <if test="noodle.createTime !=null">create_time,</if>
+        <if test="noodle.cid !=null and noodle.cid !=''">cid,</if>
         is_deleted)
         values (
         <if test="noodle.noodleName !=null and noodle.noodleName !=''">#{noodle.noodleName},</if>
@@ -22,6 +23,7 @@
         <if test="noodle.coverImages !=null and noodle.coverImages !=''">#{noodle.coverImages},</if>
         <if test="noodle.updateTime !=null">#{noodle.updateTime},</if>
         <if test="noodle.createTime !=null">#{noodle.createTime},</if>
+        <if test="noodle.cid !=null and noodle.cid !=''">#{noodle.cid},</if>
         #{noodle.isDeleted})
     </insert>
     <update id="noodleUpdate" parameterType="com.itrhh.module.entity.Noodle">
@@ -33,6 +35,7 @@
         <if test="noodle.coverImages !=null and noodle.coverImages !=''">,cover_images=#{noodle.coverImages}</if>
        <!-- <if test="noodle.noodleImage!=null">,noodle_image=#{noodle.noodleImage}</if> -->
         <if test="noodle.updateTime !=null">,update_time=#{noodle.updateTime}</if>
+        <if test="noodle.cid !=null">,cid=#{noodle.cid}</if>
         where id=#{noodle.id}
 
 
@@ -53,6 +56,7 @@
         <if test="noodle.coverImages !=null and noodle.coverImages !=''">,cover_images=#{noodle.coverImages}</if>
         <!-- <if test="noodle.noodleImage!=null">,noodle_image=#{noodle.noodleImage}</if> -->
         <if test="noodle.updateTime !=null">,update_time=#{noodle.updateTime}</if>
+        <if test="noodle.cid !=null and noodle.cid!=''">,cid=#{noodle.cid}</if>
         where id=#{noodle.id}
     </update>
 
@@ -68,6 +72,7 @@
         <if test="noodle.coverImages !=null and noodle.coverImages !=''">cover_images,</if>
         <if test="noodle.updateTime !=null">update_time,</if>
         <if test="noodle.createTime !=null">create_time,</if>
+        <if test="noodle.cid !=null and noodle.cid !=''">cid,</if>
         is_deleted)
         values (
         <if test="noodle.noodleName !=null and noodle.noodleName !=''">#{noodle.noodleName},</if>
@@ -78,6 +83,7 @@
         <if test="noodle.coverImages !=null and noodle.coverImages !=''">#{noodle.coverImages},</if>
         <if test="noodle.updateTime !=null">#{noodle.updateTime},</if>
         <if test="noodle.createTime !=null">#{noodle.createTime},</if>
+        <if test="noodle.cid !=null and noodle.cid!=''">#{noodle.cid},</if>
         #{noodle.isDeleted})
     </insert>
     <!--

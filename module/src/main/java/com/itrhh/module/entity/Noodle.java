@@ -41,5 +41,7 @@ public class Noodle {
 
     private Integer isDeleted;
 
+    private Integer cid;
+
 
 }
