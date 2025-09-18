@@ -41,7 +41,7 @@ public class NoodleController {
                                           @RequestParam(name = "weight") Integer weight,
                                           @RequestParam(name = "coverImages") String coverImages,
                                           @RequestParam(name = "content") String content,
-                                          @RequestParam(name = "cid") Integer cid
+                                          @RequestParam(name = "cid") Long cid
                                           // @RequestParam(name = "noodleImage") String noodleImage
     ) {
         String nameTrim = noodleName.trim();
@@ -63,7 +63,7 @@ public class NoodleController {
                                           @RequestParam(name = "weight") Integer weight,
                                           @RequestParam(name = "coverImages") String coverImages,
                                           @RequestParam(name = "content") String content,
-                                          @RequestParam(name = "cid") Integer cid
+                                          @RequestParam(name = "cid") Long cid
                                           //@RequestParam(name = "noodleImage") String noodleImage
     ) {
         String nameTrim = noodleName.trim();

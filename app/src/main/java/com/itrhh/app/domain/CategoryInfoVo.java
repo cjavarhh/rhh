@@ -11,7 +11,7 @@ import lombok.Data;
  */
 @Data
 public class CategoryInfoVo {
-    private Integer cId;
+    private Long cId;
     private String categoryName;
     private String categoryImage;
 }

@@ -1,5 +1,6 @@
 package com.itrhh.module.mapper;
 
+
 import com.itrhh.module.entity.Category;
 import com.itrhh.module.entity.Noodle;
 import org.apache.ibatis.annotations.*;
@@ -52,13 +53,17 @@ public interface NoodleMapper {
     @Update("update  noodel set is_deleted=1 wehere id=#{id}")
     boolean delete(@Param(("id")) Long id);
 
-    @Select("select *from category where cid=#{cid} and is_deleted=0")
-    Category selectCategoryById(@Param("cid") Integer cid);
+
+    @Select("select *from category where id=#{id} and is_deleted=0")
+    Category selectCategoryById(@Param("id") Integer id);
 
     @Select("select *from category where  is_deleted=0")
     List<Category>getAllCategory ();
 
+
     //检查分类Id是否存在
-    @Select("select *from category where cid=#{cid} and is_deleted=0")
-    int selectById(@Param("cid") Integer cid);
+    @Select("select *from category where id=#{id} and is_deleted=0")
+    int selectById(@Param("id") Long id);
+
+
 }

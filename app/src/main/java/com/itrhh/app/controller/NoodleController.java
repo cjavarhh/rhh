@@ -6,6 +6,7 @@ import com.itrhh.app.domain.NoodleListVo;
 import com.itrhh.app.domain.NoodleInfoVo;
 import com.itrhh.module.entity.Category;
 import com.itrhh.module.entity.Noodle;
+import com.itrhh.module.service.CategoryService;
 import com.itrhh.module.service.NoodleService;
 import com.itrhh.app.domain.ResultAppVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,8 @@ public class NoodleController {
     //List<String>imageList= Arrays.asList(imageArray);
     @Autowired
     private NoodleService noodleService;
+    @Autowired
+    CategoryService categoryService;
 
     @RequestMapping("/noodle/info")
     public NoodleInfoVo noodleInfo(@RequestParam(name = "noodleId") BigInteger noodleId) {
@@ -50,8 +53,8 @@ public class NoodleController {
         String coverImages = noodleInfoById.getCoverImages();
         String[] split = coverImages.split("\\$");
         //Integer cId = noodleInfoById.getCId();
-        Integer cid = noodleInfoById.getCid();
-        Category category = noodleService.getCategory(cid);
+        Long cid = noodleInfoById.getCid();
+        Category category = categoryService.getById(cid);
         String categoryImage = category.getCategoryImage();
         String categoryName = category.getCategoryName();
         // String toString = coverImages.toString();
@@ -88,8 +91,8 @@ public class NoodleController {
             noodleAppListVos.add(noodleAppListVo);
             // noodleAppListVo.setPrice(noodle.getPrice());
             //Integer cId = noodle.getCId();
-            Integer cid = noodle.getCid();
-            Category category = noodleService.getCategory(cid);
+            Long cid = noodle.getCid();
+            Category category = categoryService.getById(cid);
             String categoryName = category.getCategoryName();
             resultAppVo.setCategoryName(categoryName);
             noodleAppListVos.add(noodleAppListVo);
@@ -103,14 +106,14 @@ public class NoodleController {
     }
     @RequestMapping("/category/list")
     public List< CategoryInfoVo> categoryAll() {
-        List<Category> categoryAll = noodleService.getCategoryAll();
+        List<Category> categoryAll = categoryService.getAllCategoryInfo();
         ArrayList<CategoryInfoVo> categoryInfoVos = new ArrayList<>();
         //CategoryInfoVo categoryInfoVo = new CategoryInfoVo();
         for (Category category : categoryAll) {
             CategoryInfoVo categoryInfoVo = new CategoryInfoVo();
             categoryInfoVo.setCategoryImage(category.getCategoryImage());
             categoryInfoVo.setCategoryName(category.getCategoryName());
-            categoryInfoVo.setCId(category.getCid());
+            categoryInfoVo.setCId(category.getId());
             categoryInfoVos.add(categoryInfoVo);
         }
         return categoryInfoVos;

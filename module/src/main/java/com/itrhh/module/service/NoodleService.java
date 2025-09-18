@@ -6,6 +6,7 @@ import com.github.pagehelper.PageInfo;
 import com.itrhh.module.config.ResourceNotFoundException;
 import com.itrhh.module.entity.Category;
 import com.itrhh.module.entity.Noodle;
+import com.itrhh.module.mapper.CategoryMapper;
 import com.itrhh.module.mapper.NoodleMapper;
 import com.itrhh.module.utils.NoodleJudgment;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
@@ -26,21 +27,21 @@ import java.util.List;
 @Service
 public class NoodleService {
     @Resource
-    private NoodleMapper nooodleMapper;
+    private NoodleMapper mapper;
+    private CategoryMapper categoryMapper;
 
 
     public List<Noodle> getAllNoodleInfo(Integer offset, Integer pageSize) {
 
-        return nooodleMapper.getAll(offset, pageSize);
+        return mapper.getAll(offset, pageSize);
     }
 
     public Noodle getNoodleInfoById(BigInteger id) {
 
-        return nooodleMapper.getById(id);
+        return mapper.getById(id);
     }
 
-    @Resource
-    private NoodleMapper mapper;
+
 
     public int createNoodle(String name, Integer price, String content, Integer weight, String coverImages) {
         int timestamp = (int) (System.currentTimeMillis() / 100);
@@ -79,7 +80,7 @@ public class NoodleService {
     //模糊查询
     public List<Noodle> getNoodleLike(String keyWord) {
 
-        return nooodleMapper.getList(keyWord);
+        return mapper.getList(keyWord);
     }
 
     //分页模糊查询
@@ -112,7 +113,7 @@ public class NoodleService {
 
     //合并新增修改方法
     @Transactional
-    public BigInteger edit(BigInteger noodleId, String noodleName, Integer price, String content, Integer weight, String coverImages, Integer cid) {
+    public BigInteger edit(BigInteger noodleId, String noodleName, Integer price, String content, Integer weight, String coverImages, Long cid) {
         //判断参数是否合法
         NoodleJudgment.validateEntity(noodleName, coverImages, price);
         validateCategoryId(cid);
@@ -136,7 +137,7 @@ public class NoodleService {
 
         } else {
             // 更新逻辑
-            Noodle byId = nooodleMapper.getById(noodleId);
+            Noodle byId = mapper.getById(noodleId);
             BigInteger id1 = byId.getId();
             if (id1 != noodleId) {
                 int timestamp = (int) (System.currentTimeMillis() / 100);
@@ -157,23 +158,24 @@ public class NoodleService {
         }
     }
 
-    public Category getCategory(Integer cid) {
+/*  public Category getCategory(Integer cid) {
         Category category = nooodleMapper.selectCategoryById(cid);
         return category;
     }
 
     public List<Category> getCategoryAll() {
         return nooodleMapper.getAllCategory();
-    }
+    }*/
 
     //校验分类id是否存在
-    public void validateCategoryId(Integer cid) {
+    public void validateCategoryId(Long cid) {
         if (cid == null) {
             throw new IllegalArgumentException("分类Id不能为空");
         }
-        int i = nooodleMapper.selectById(cid);
+        int i = mapper.selectById(cid);
         if (i == 0) {
             throw new ResourceNotFoundException("分类id不存在");
         }
     }
 }
+
