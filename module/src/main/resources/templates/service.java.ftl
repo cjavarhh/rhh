@@ -40,5 +40,5 @@ public class ${entity}Service {
         int now = (int) (System.currentTimeMillis() / 1000);
         mapper.delete(id, now);
         }
-        public
+
 }
