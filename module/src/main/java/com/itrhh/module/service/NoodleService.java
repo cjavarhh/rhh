@@ -49,7 +49,6 @@ public class NoodleService {
         noodle.setNoodleName(name);
         noodle.setPrice(price);
         noodle.setNoodleWeight(weight);
-        //noodle.setNoodleImage(noodleImage);
         noodle.setContent(content);
         noodle.setCoverImages(coverImages);
         noodle.setCreateTime(timestamp);
@@ -116,6 +115,7 @@ public class NoodleService {
     public BigInteger edit(BigInteger noodleId, String noodleName, Integer price, String content, Integer weight, String coverImages, Long cid) {
         //判断参数是否合法
         NoodleJudgment.validateEntity(noodleName, coverImages, price);
+        //校验分类id是否存在数据库
         validateCategoryId(cid);
         // 判断是新增还是更新
         if (noodleId == null) {
@@ -126,7 +126,6 @@ public class NoodleService {
             noodle.setCid(cid);
             noodle.setPrice(price);
             noodle.setNoodleWeight(weight);
-            //noodle.setNoodleImage(noodleImage);
             noodle.setContent(content);
             noodle.setCoverImages(coverImages);
             noodle.setCreateTime(timestamp);
@@ -147,7 +146,6 @@ public class NoodleService {
                 noodle.setNoodleWeight(weight);
                 noodle.setPrice(price);
                 noodle.setContent(content);
-                // noodle.setNoodleImage(noodleImage);
                 noodle.setCoverImages(coverImages);
                 noodle.setUpdateTime(timestamp);
                 noodle.setCid(cid);
@@ -158,16 +156,6 @@ public class NoodleService {
         }
     }
 
-/*  public Category getCategory(Integer cid) {
-        Category category = nooodleMapper.selectCategoryById(cid);
-        return category;
-    }
-
-    public List<Category> getCategoryAll() {
-        return nooodleMapper.getAllCategory();
-    }*/
-
-    //校验分类id是否存在
     public void validateCategoryId(Long cid) {
         if (cid == null) {
             throw new IllegalArgumentException("分类Id不能为空");

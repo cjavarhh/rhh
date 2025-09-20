@@ -28,10 +28,6 @@ import java.util.List;
  */
 @RestController
 public class NoodleController {
-    //private  Integer total =7;
-    //String dbCoverImage="url1$url2$url3";
-    //String[] imageArray=dbCoverImage.split("\\$");
-    //List<String>imageList= Arrays.asList(imageArray);
     @Autowired
     private NoodleService noodleService;
     @Autowired
@@ -39,11 +35,6 @@ public class NoodleController {
 
     @RequestMapping("/noodle/info")
     public NoodleInfoVo noodleInfo(@RequestParam(name = "noodleId") BigInteger noodleId) {
-        //String dbCoverImage="url1$url2$url3";
-        //String[] imageArray=dbCoverImage.split("\\$");
-        //List<String>imageList= Arrays.asList(imageArray);
-
-
         Noodle noodleInfoById = noodleService.getNoodleInfoById(noodleId);
         NoodleInfoVo noodleInfoVo = new NoodleInfoVo();
         if (noodleInfoById == null) {
@@ -52,13 +43,10 @@ public class NoodleController {
         }
         String coverImages = noodleInfoById.getCoverImages();
         String[] split = coverImages.split("\\$");
-        //Integer cId = noodleInfoById.getCId();
         Long cid = noodleInfoById.getCid();
         Category category = categoryService.getById(cid);
         String categoryImage = category.getCategoryImage();
         String categoryName = category.getCategoryName();
-        // String toString = coverImages.toString();
-        //String[] split = toString.split("\\$");
         List<String> imageList = Arrays.asList(split);
         noodleInfoVo.setCoverImages(imageList);
         noodleInfoVo.setNoodleName(noodleInfoById.getNoodleName());
@@ -69,17 +57,16 @@ public class NoodleController {
         noodleInfoVo.setCategoryImage(categoryImage);
         return noodleInfoVo;
     }
+
     @RequestMapping("/noodle/list")
-    public ResultAppVo noodleAll(@RequestParam(name = "page") Integer page, @RequestParam(value = "keyword", required = false) String keyword) {
+    public ResultAppVo noodleAll(@RequestParam(name = "page") Integer page,
+                                 @RequestParam(value = "keyword", required = false) String keyword) {
         Integer pageSize = 2;
         Integer offset = (page - 1) * pageSize;
-        // List<Noodle> noodleLike = noodleService.getNoodleLike(keyWord);
-        //List<Noodle> allNoodleInfo = noodleService.getAllNoodleInfo(offset, pageSize);
         PageInfo<Noodle> noodleList = noodleService.getNoodleList(page, pageSize, keyword);
         List<Noodle> allNoodleInfo = noodleList.getList();
         ArrayList<NoodleListVo> noodleAppListVos = new ArrayList<>();
         ResultAppVo resultAppVo = new ResultAppVo();
-        //NoodleListVo noodleAppListVo = new NoodleListVo();
         for (Noodle noodle : allNoodleInfo) {
             NoodleListVo noodleAppListVo = new NoodleListVo();
             String coverImages = noodle.getCoverImages();
@@ -89,26 +76,22 @@ public class NoodleController {
             noodleAppListVo.setNoodleId(noodle.getId());
             noodleAppListVo.setNoodleName(noodle.getNoodleName());
             noodleAppListVos.add(noodleAppListVo);
-            // noodleAppListVo.setPrice(noodle.getPrice());
-            //Integer cId = noodle.getCId();
             Long cid = noodle.getCid();
             Category category = categoryService.getById(cid);
             String categoryName = category.getCategoryName();
             resultAppVo.setCategoryName(categoryName);
             noodleAppListVos.add(noodleAppListVo);
         }
-        // Boolean isEnd= allNoodleInfo.size()>total?true:false;
         Boolean isEnd = allNoodleInfo.size() < pageSize;
-        //noodleAppListVos.add(noodleAppListVo);
         resultAppVo.setData(noodleAppListVos);
         resultAppVo.setIsEnd(isEnd);
         return resultAppVo;
     }
+
     @RequestMapping("/category/list")
     public List< CategoryInfoVo> categoryAll() {
         List<Category> categoryAll = categoryService.getAllCategoryInfo();
         ArrayList<CategoryInfoVo> categoryInfoVos = new ArrayList<>();
-        //CategoryInfoVo categoryInfoVo = new CategoryInfoVo();
         for (Category category : categoryAll) {
             CategoryInfoVo categoryInfoVo = new CategoryInfoVo();
             categoryInfoVo.setCategoryImage(category.getCategoryImage());
