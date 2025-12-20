@@ -1,19 +1,21 @@
 package com.itrhh.app.controller;
 
 import com.github.pagehelper.PageInfo;
-import com.itrhh.app.domain.CategoryInfoVo;
-import com.itrhh.app.domain.NoodleListVo;
-import com.itrhh.app.domain.NoodleInfoVo;
+import com.itrhh.app.domain.*;
+import com.itrhh.module.config.ResourceNotFoundException;
+import com.itrhh.module.domin.NoodleVo;
 import com.itrhh.module.entity.Category;
 import com.itrhh.module.entity.Noodle;
+import com.itrhh.module.mapper.CategoryMapper;
+import com.itrhh.module.mapper.NoodleMapper;
 import com.itrhh.module.service.CategoryService;
 import com.itrhh.module.service.NoodleService;
-import com.itrhh.app.domain.ResultAppVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -28,10 +30,11 @@ import java.util.List;
  */
 @RestController
 public class NoodleController {
-    @Autowired
+    @Resource
     private NoodleService noodleService;
-    @Autowired
-    CategoryService categoryService;
+    @Resource
+    private CategoryService categoryService;
+
 
     @RequestMapping("/noodle/info")
     public NoodleInfoVo noodleInfo(@RequestParam(name = "noodleId") BigInteger noodleId) {
@@ -43,7 +46,14 @@ public class NoodleController {
         }
         String coverImages = noodleInfoById.getCoverImages();
         String[] split = coverImages.split("\\$");
-        Long cid = noodleInfoById.getCid();
+        Long cid = noodleInfoById.getCategoryId();
+        if (cid == null) {
+            throw new IllegalArgumentException("分类Id不能为空");
+        }
+        int i = categoryService.selectJudgeId(cid);
+        if (i == 0) {
+            throw new ResourceNotFoundException("分类id不存在");
+        }
         Category category = categoryService.getById(cid);
         String categoryImage = category.getCategoryImage();
         String categoryName = category.getCategoryName();
@@ -63,11 +73,16 @@ public class NoodleController {
                                  @RequestParam(value = "keyword", required = false) String keyword) {
         Integer pageSize = 2;
         Integer offset = (page - 1) * pageSize;
-        PageInfo<Noodle> noodleList = noodleService.getNoodleList(page, pageSize, keyword);
-        List<Noodle> allNoodleInfo = noodleList.getList();
+        //PageInfo<Noodle> noodleList = noodleService.getNoodleList(page, pageSize, keyword);
+        PageInfo<Noodle> byNoodleOrCategory = noodleService.findByNoodleOrCategory(page, offset, keyword);
+        List<Noodle> allNoodleInfo = byNoodleOrCategory.getList();
         ArrayList<NoodleListVo> noodleAppListVos = new ArrayList<>();
         ResultAppVo resultAppVo = new ResultAppVo();
+
         for (Noodle noodle : allNoodleInfo) {
+            Long categoryId = noodle.getCategoryId();
+            Category categoryInfo = categoryService.getById(categoryId);
+            String categoryName = categoryInfo.getCategoryName();
             NoodleListVo noodleAppListVo = new NoodleListVo();
             String coverImages = noodle.getCoverImages();
             String[] split = coverImages.split("\\$");
@@ -76,11 +91,15 @@ public class NoodleController {
             noodleAppListVo.setNoodleId(noodle.getId());
             noodleAppListVo.setNoodleName(noodle.getNoodleName());
             noodleAppListVos.add(noodleAppListVo);
-            Long cid = noodle.getCid();
-            Category category = categoryService.getById(cid);
-            String categoryName = category.getCategoryName();
+                if (categoryId == null) {
+                    throw new IllegalArgumentException("分类Id不能为空");
+                }
+                int i = categoryService.selectJudgeId(categoryId);
+                if (i == 0) {
+                    throw new ResourceNotFoundException("分类id不存在");
+                }
+                resultAppVo.setCategoryId(categoryId);
             resultAppVo.setCategoryName(categoryName);
-            noodleAppListVos.add(noodleAppListVo);
         }
         Boolean isEnd = allNoodleInfo.size() < pageSize;
         resultAppVo.setData(noodleAppListVos);

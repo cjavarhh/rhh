@@ -1,11 +1,15 @@
 package com.itrhh.console.controller;
 
+import com.github.pagehelper.PageInfo;
 import com.itrhh.console.domain.CategoryInfoVo;
 import com.itrhh.console.domain.NoodleInfoVo;
 import com.itrhh.console.domain.NoodleListVo;
 import com.itrhh.console.utils.NoodleJudgment;
+import com.itrhh.module.config.ResourceNotFoundException;
+import com.itrhh.module.domin.NoodleVo;
 import com.itrhh.module.entity.Category;
 import com.itrhh.module.entity.Noodle;
+import com.itrhh.module.service.CategoryService;
 import com.itrhh.module.service.NoodleService;
 import com.itrhh.console.domain.ResultConsoleVo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +38,8 @@ import java.util.List;
 public class NoodleController {
     @Autowired
     private NoodleService noodleService;
+    @Autowired
+    private CategoryService categoryService;
 
     @RequestMapping("/noodle/create")
     public ResponseEntity<?> noodleCreate(@RequestParam(name = "noodleName") String noodleName,
@@ -41,14 +47,14 @@ public class NoodleController {
                                           @RequestParam(name = "weight") Integer weight,
                                           @RequestParam(name = "coverImages") String coverImages,
                                           @RequestParam(name = "content") String content,
-                                          @RequestParam(name = "cid") Long cid
+                                          @RequestParam(name = "categoryId") Long categoryId
                                           // @RequestParam(name = "noodleImage") String noodleImage
     ) {
         String nameTrim = noodleName.trim();
         NoodleJudgment.validateEntity(noodleName, coverImages, price);
         try {
 
-            BigInteger id = noodleService.edit(null, noodleName, price, content, weight, coverImages, cid);
+            BigInteger id = noodleService.edit(null, noodleName, price, content, weight, coverImages, categoryId);
             return ResponseEntity.ok(id);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -63,13 +69,13 @@ public class NoodleController {
                                           @RequestParam(name = "weight") Integer weight,
                                           @RequestParam(name = "coverImages") String coverImages,
                                           @RequestParam(name = "content") String content,
-                                          @RequestParam(name = "cid") Long cid
+                                          @RequestParam(name = "categoryId") Long categoryId
                                           //@RequestParam(name = "noodleImage") String noodleImage
     ) {
         String nameTrim = noodleName.trim();
         NoodleJudgment.validateEntity(noodleName, coverImages, price);
         try {
-            BigInteger editUpdate = noodleService.edit(noodleId, noodleName, price, content, weight, coverImages, cid);
+            BigInteger editUpdate = noodleService.edit(noodleId, noodleName, price, content, weight, coverImages, categoryId);
             return ResponseEntity.ok(noodleId);
         } catch (Exception e) {
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -78,26 +84,30 @@ public class NoodleController {
 
     @RequestMapping("/noodle/delete")
     public String noodleDelete(@RequestParam(name = "noodleId") BigInteger noodleId) {
+        Noodle noodleInfoById = noodleService.getNoodleInfoById(noodleId);
+        Long cid = noodleInfoById.getCategoryId();
+            if (cid == null) {
+                throw new IllegalArgumentException("分类Id不能为空");
+            }
+            int i = categoryService.selectJudgeId(cid);
+            if (i == 0) {
+                throw new ResourceNotFoundException("分类id不存在");
+            }
+            categoryService.delete(cid);
         int result = noodleService.deleteNoodle(noodleId);
         return 1 == result ? "成功" : "失败";
     }
 
     @RequestMapping("/noodle/info")
     public NoodleInfoVo noodleConsoleInfo(@RequestParam(name = "noodleId") BigInteger noodleId) {
-        //String dbCoverImage="url1$url2$url3";
-        //String[] imageArray=dbCoverImage.split("\\$");
-        //List<String>imageList= Arrays.asList(imageArray);
         Noodle noodleInfoConsoleById = noodleService.getNoodleInfoById(noodleId);
         NoodleInfoVo noodleConsoleInfoVo = new NoodleInfoVo();
-        //NoodleInfoVo noodleInfoVo = new NoodleInfoVo();
         if (noodleInfoConsoleById == null) {
             System.out.println("没有拿到指定的id");
             return null;
         }
         String coverImages = noodleInfoConsoleById.getCoverImages();
         String[] split = coverImages.split("\\$");
-        // String toString = coverImages.toString();
-        //String[] split = toString.split("\\$");
         List<String> imageList = Arrays.asList(split);
         noodleConsoleInfoVo.setNoodleImages(imageList);
         noodleConsoleInfoVo.setNoodleName(noodleInfoConsoleById.getNoodleName());
@@ -115,17 +125,24 @@ public class NoodleController {
     }
 
     @RequestMapping("/noodle/list")
-    public ResultConsoleVo noodleConsoleAll(@RequestParam(name = "page") Integer page) {
+    public ResultConsoleVo noodleConsoleAll(@RequestParam(name = "page") Integer page,
+                                            @RequestParam(value = "keyword", required = false) String keyword) {
         Integer pageSize = 2;
         Integer offset = (page - 1) * pageSize;
-        List<Noodle> allNoodleInfo = noodleService.getAllNoodleInfo(offset, pageSize);
+       // List<Noodle> allNoodleInfo = noodleService.getAllNoodleInfo(offset, pageSize);
+       PageInfo<Noodle> noodleVoPageInfo = noodleService.selectByNoodleOrCategory(offset,page,keyword);
+        // PageInfo<NoodleVo> noodleVoPageInfo = noodleService.selectByNoodleOrCategory(page, keyword);
+        List<Noodle> allNoodleInfo = noodleVoPageInfo.getList();
         ArrayList<NoodleListVo> noodleAppListVos = new ArrayList<>();
         //NoodleConsoleInfoVo noodleConsoleInfoVo = new NoodleConsoleInfoVo();
-        //NoodleAppListVo noodleAppListVo = new NoodleAppListVo();
         NoodleListVo noodleConsoleListVo = new NoodleListVo();
-        ResultConsoleVo<Object> resultConsoleVo = new ResultConsoleVo<>();
-        // NoodleConsoleInfoVo noodleConsoleInfoVo = new NoodleConsoleInfoVo();
+        //NoodleVo noodleConsoleListVo = new NoodleVo();
+        ResultConsoleVo<NoodleVo> resultConsoleVo = new ResultConsoleVo<>();
+        //NoodleConsoleInfoVo noodleConsoleInfoVo = new NoodleConsoleInfoVo();
         for (Noodle noodle : allNoodleInfo) {
+            Long categoryId = noodle.getCategoryId();
+            Category category = categoryService.getById(categoryId);
+            String categoryName = category.getCategoryName();
             String coverImages = noodle.getCoverImages();
             String[] split = coverImages.split("\\$");
             String s = split[0];
@@ -135,6 +152,8 @@ public class NoodleController {
             noodleConsoleListVo.setNoodleName(noodle.getNoodleName());
             noodleConsoleListVo.setPrice(noodle.getPrice());
             noodleAppListVos.add(noodleConsoleListVo);
+            resultConsoleVo.setCategoryId(categoryId);
+            resultConsoleVo.setCategoryName(categoryName);
         }
         resultConsoleVo.setData(noodleAppListVos);
         resultConsoleVo.setPagSize(pageSize);

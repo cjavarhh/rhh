@@ -15,5 +15,6 @@ import java.util.List;
 public class ResultAppVo {
     private List<?> data;
     private Boolean isEnd;
+    private Long categoryId;
     private String  categoryName;
 }

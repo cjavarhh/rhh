@@ -86,6 +86,47 @@
         <if test="noodle.cid !=null and noodle.cid!=''">#{noodle.cid},</if>
         #{noodle.isDeleted})
     </insert>
+
+    <select id="findByNoodleTitleOrCategoryName" resultType="com.itrhh.module.entity.Noodle">
+        SELECT * FROM noodle
+        <where>
+            noodle.is_deleted = 0
+
+            <if test="keyword != null and keyword != ''">
+                AND (
+                noodle_name LIKE CONCAT('%', #{keyword}, '%')
+                OR noodle.category_id in (
+                SELECT category.id FROM category
+                where category.is_deleted = 0
+                AND category_name LIKE CONCAT('%', #{keyword}, '%')
+                )
+                )
+            </if>
+        </where>
+        ORDER BY noodle.create_time DESC
+        limit #{offset},#{pageSize}
+    </select>
+    <select id="findByNoodleOrCategoryName" resultType="com.itrhh.module.entity.Noodle">
+        SELECT
+        n.*,
+        c.category_name as categoryName
+        FROM noodle n
+        LEFT JOIN category c ON n.category_id = c.id
+        <where>
+            <!-- 只查询未删除的数据 -->
+            n.is_deleted = 0
+            AND c.is_deleted = 0
+
+            <if test="keyword != null and keyword != ''">
+                AND (
+                n.noodle_name LIKE CONCAT('%', #{keyword}, '%')
+                OR c.category_name LIKE CONCAT('%', #{keyword}, '%')
+                )
+            </if>
+        </where>
+        ORDER BY n.create_time DESC
+        limit #{offset},#{pageSize}
+    </select>
     <!--
     <update id="noodleDelete"
             parameterType="com.itrhh.module.entity.Noodle">

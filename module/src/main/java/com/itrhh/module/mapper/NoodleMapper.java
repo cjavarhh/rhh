@@ -1,6 +1,8 @@
 package com.itrhh.module.mapper;
 
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import com.itrhh.module.domin.NoodleVo;
 import com.itrhh.module.entity.Category;
 import com.itrhh.module.entity.Noodle;
 import org.apache.ibatis.annotations.*;
@@ -18,7 +20,7 @@ import java.util.List;
  * @Version 1.0.0
  */
 @Mapper
-public interface NoodleMapper {
+public interface NoodleMapper  {
     //查询编号面条信息
     @Select("select *from noodle where id=#{id} and is_deleted=0")
     Noodle getById(@Param("id") BigInteger id);
@@ -60,10 +62,15 @@ public interface NoodleMapper {
     @Select("select *from category where  is_deleted=0")
     List<Category>getAllCategory ();
 
-
     //检查分类Id是否存在
-    @Select("select *from category where id=#{id} and is_deleted=0")
-    int selectById(@Param("id") Long id);
+    @Update("update  noodle set is_deleted=1 where cid={cid}")
+    int noodleDeleteCid(@Param("cid") Long cid);
+
+    //模糊查询联合查询进阶子查询
+    List<Noodle>findByNoodleTitleOrCategoryName(@Param("offset")Integer offset,@Param("pageSize") Integer pageSize,@Param("keyword") String keyword);
+    //模糊查询子查询进阶联表查询
+ //   List<Noodle>f
+    List<Noodle>findByNoodleOrCategoryName(@Param("offset")Integer offset,@Param("pageSize")Integer pageSize,@Param("keyword") String keyword);
 
 
 }

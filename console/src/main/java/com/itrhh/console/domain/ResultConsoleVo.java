@@ -9,4 +9,6 @@ public class ResultConsoleVo<T> {
     private List<?> data;
     private Integer total;
     private Integer pagSize;
+    private  String CategoryName;
+    private Long categoryId;
 }

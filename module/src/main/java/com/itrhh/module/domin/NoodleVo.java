@@ -1,26 +1,20 @@
-package com.itrhh.module.entity;
+package com.itrhh.module.domin;
 
+import com.itrhh.module.entity.Category;
+import com.itrhh.module.entity.Noodle;
 import lombok.Data;
-import lombok.experimental.Accessors;
-
 
 import java.math.BigInteger;
-import java.util.List;
 
 /**
- * @Classname Noodle
+ * @Classname NoodleVo
  * @Description TODO
  * @Created by 14195
- * @Date 2024/10/17 14:26
+ * @Date 2025/10/22 19:37
  * @Version 1.0.0
  */
-
-//实体类
 @Data
-
-@Accessors(chain = true)
-public class Noodle {
-
+public class NoodleVo  {
     private BigInteger id;
 
     private String noodleName;
@@ -43,5 +37,5 @@ public class Noodle {
 
     private Long categoryId;
 
-
+    private Category category;
 }

@@ -3,6 +3,7 @@ package com.itrhh.module.service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import com.itrhh.module.domin.NoodleVo;
 import com.itrhh.module.config.ResourceNotFoundException;
 import com.itrhh.module.entity.Category;
 import com.itrhh.module.entity.Noodle;
@@ -112,18 +113,18 @@ public class NoodleService {
 
     //合并新增修改方法
     @Transactional
-    public BigInteger edit(BigInteger noodleId, String noodleName, Integer price, String content, Integer weight, String coverImages, Long cid) {
+    public BigInteger edit(BigInteger noodleId, String noodleName, Integer price, String content, Integer weight, String coverImages, Long categoryId) {
         //判断参数是否合法
         NoodleJudgment.validateEntity(noodleName, coverImages, price);
         //校验分类id是否存在数据库
-        validateCategoryId(cid);
+        validateCategoryId(categoryId);
         // 判断是新增还是更新
         if (noodleId == null) {
             // 新增逻辑
             int timestamp = (int) (System.currentTimeMillis() / 100);
             Noodle noodle = new Noodle();
             noodle.setNoodleName(noodleName);
-            noodle.setCid(cid);
+            noodle.setCategoryId(categoryId);
             noodle.setPrice(price);
             noodle.setNoodleWeight(weight);
             noodle.setContent(content);
@@ -148,7 +149,7 @@ public class NoodleService {
                 noodle.setContent(content);
                 noodle.setCoverImages(coverImages);
                 noodle.setUpdateTime(timestamp);
-                noodle.setCid(cid);
+                noodle.setCategoryId(categoryId);
                 mapper.update(noodle);
                 return noodleId;
             }
@@ -160,10 +161,20 @@ public class NoodleService {
         if (cid == null) {
             throw new IllegalArgumentException("分类Id不能为空");
         }
-        int i = mapper.selectById(cid);
+        int i = categoryMapper.selectByCategoryId(cid);//mapper.selectById(cid);
         if (i == 0) {
             throw new ResourceNotFoundException("分类id不存在");
         }
+    }
+    //子查询
+    public PageInfo<Noodle>findByNoodleOrCategory(Integer offset, Integer pageSize, String keyword){
+        List<Noodle> byNoodleTitleOrCategoryName = mapper.findByNoodleTitleOrCategoryName(offset,pageSize,keyword);
+        return new PageInfo<> (byNoodleTitleOrCategoryName);
+    }
+    //联合查询
+    public PageInfo<Noodle>selectByNoodleOrCategory(Integer offset, Integer pageSize ,String keyword){
+        List<Noodle> byNoodleOrCategoryName = mapper.findByNoodleOrCategoryName(offset, pageSize, keyword);
+        return new PageInfo<>(byNoodleOrCategoryName);
     }
 }
 
