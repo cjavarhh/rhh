@@ -60,7 +60,6 @@
         where id=#{noodle.id}
     </update>
 
-
     <insert id="insert"
             parameterType="com.itrhh.module.entity.Noodle"  useGeneratedKeys="true" keyProperty="id">
         insert into noodle (
@@ -127,6 +126,7 @@
         ORDER BY n.create_time DESC
         limit #{offset},#{pageSize}
     </select>
+
     <!--
     <update id="noodleDelete"
             parameterType="com.itrhh.module.entity.Noodle">
@@ -141,5 +141,20 @@
     </if>
 </select>
 -->
-
+    <select id="findByKeywordForApp" resultType="com.itrhh.module.entity.Noodle">
+        SELECT *FROM noodle
+        <where>
+            is_deleted=0
+            <if test="keyword != null and keyword !=''">
+                AND (
+                noodle_name LIKE CONCAT('%',#{keyword},'%')
+                <if test="categoryIds !=null and categoryIds !=''">
+                    OR category_id IN (${categoryIds})
+                </if>
+                )
+            </if>
+        </where>
+ORDER BY noodle.create_time DESC
+limit #{offset},#{pageSize}
+    </select>
 </mapper>

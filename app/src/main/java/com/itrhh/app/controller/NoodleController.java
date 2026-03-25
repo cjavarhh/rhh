@@ -11,6 +11,7 @@ import com.itrhh.module.mapper.NoodleMapper;
 import com.itrhh.module.service.CategoryService;
 import com.itrhh.module.service.NoodleService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -119,5 +120,16 @@ public class NoodleController {
             categoryInfoVos.add(categoryInfoVo);
         }
         return categoryInfoVos;
+    }
+    @RequestMapping("/app/noodle/List")
+    public List<Noodle>listNoodle(@RequestParam(required = false) String Keyword,@RequestParam(name = "offset") Integer offset){
+        if (!StringUtils.hasText(Keyword)){
+            throw new IllegalArgumentException("不存在");
+        }
+        Integer pagSize=2;
+        List<Noodle> noodles = noodleService.searchNoodle(Keyword, offset, pagSize);
+        return noodles;
+
+
     }
 }

@@ -13,10 +13,13 @@ import com.itrhh.module.utils.NoodleJudgment;
 import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.CollectionUtils;
+import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
 import java.math.BigInteger;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Classname NoodleService
@@ -29,6 +32,7 @@ import java.util.List;
 public class NoodleService {
     @Resource
     private NoodleMapper mapper;
+    @Resource
     private CategoryMapper categoryMapper;
 
 
@@ -41,7 +45,6 @@ public class NoodleService {
 
         return mapper.getById(id);
     }
-
 
 
     public int createNoodle(String name, Integer price, String content, Integer weight, String coverImages) {
@@ -166,15 +169,32 @@ public class NoodleService {
             throw new ResourceNotFoundException("分类id不存在");
         }
     }
+
     //子查询
-    public PageInfo<Noodle>findByNoodleOrCategory(Integer offset, Integer pageSize, String keyword){
-        List<Noodle> byNoodleTitleOrCategoryName = mapper.findByNoodleTitleOrCategoryName(offset,pageSize,keyword);
-        return new PageInfo<> (byNoodleTitleOrCategoryName);
+    public PageInfo<Noodle> findByNoodleOrCategory(Integer offset, Integer pageSize, String keyword) {
+        List<Noodle> byNoodleTitleOrCategoryName = mapper.findByNoodleTitleOrCategoryName(offset, pageSize, keyword);
+        return new PageInfo<>(byNoodleTitleOrCategoryName);
     }
+
     //联合查询
-    public PageInfo<Noodle>selectByNoodleOrCategory(Integer offset, Integer pageSize ,String keyword){
+    public PageInfo<Noodle> selectByNoodleOrCategory(Integer offset, Integer pageSize, String keyword) {
         List<Noodle> byNoodleOrCategoryName = mapper.findByNoodleOrCategoryName(offset, pageSize, keyword);
         return new PageInfo<>(byNoodleOrCategoryName);
     }
-}
 
+    //优化后子查询
+    public List<Noodle> searchNoodle(String keyword, Integer offset, Integer pageSize) {
+/*        if (!StringUtils.hasText(keyword)) {
+            return mapper.findByKeywordForApp("", "", offset, pageSize);
+        }*/
+        List<Integer> categoryIdList = categoryMapper.selectEnableIdsByKeyword(keyword);
+        //拼接id列表为字符串123
+        String categoryIds = "";
+        if (!CollectionUtils.isEmpty((categoryIdList))) {
+            categoryIds = categoryIdList.stream()
+                    .map(String::valueOf)
+                    .collect(Collectors.joining(","));
+        }
+        return mapper.findByKeywordForApp(keyword, categoryIds, offset, pageSize);
+    }
+}

@@ -72,5 +72,11 @@ public interface NoodleMapper  {
  //   List<Noodle>f
     List<Noodle>findByNoodleOrCategoryName(@Param("offset")Integer offset,@Param("pageSize")Integer pageSize,@Param("keyword") String keyword);
 
+    List<Noodle> findByKeywordForApp(
+            @Param("keyword") String keyword,
+            @Param("categoryIds") String CategoryIds,
+            @Param("offset") Integer offset,
+            @Param("pageSize")Integer pageSize);
+
 
 }
