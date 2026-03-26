@@ -195,6 +195,14 @@ public class NoodleService {
                     .map(String::valueOf)
                     .collect(Collectors.joining(","));
         }
-        return mapper.findByKeywordForApp(keyword, categoryIds, offset, pageSize);
+
+        List<Noodle> byKeywordForApp = mapper.findByKeywordForApp(keyword, categoryIds, offset, pageSize);
+        for (Noodle noodle:byKeywordForApp){
+            Category category = categoryMapper.getById(noodle.getCategoryId());
+            if (category!=null){
+                noodle.setCategoryName(category.getCategoryName());
+            }
+        }
+        return byKeywordForApp;
     }
 }

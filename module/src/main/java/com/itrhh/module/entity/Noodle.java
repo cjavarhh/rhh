@@ -43,5 +43,7 @@ public class Noodle {
 
     private Long categoryId;
 
+    private String CategoryName;
+
 
 }
