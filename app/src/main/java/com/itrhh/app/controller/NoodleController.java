@@ -100,7 +100,7 @@ public class NoodleController {
                     throw new ResourceNotFoundException("分类id不存在");
                 }
                 resultAppVo.setCategoryId(categoryId);
-            resultAppVo.setCategoryName(categoryName);
+            //resultAppVo.setCategoryName(categoryName);
         }
         Boolean isEnd = allNoodleInfo.size() < pageSize;
         resultAppVo.setData(noodleAppListVos);
@@ -139,6 +139,7 @@ public class NoodleController {
             noodleAppListVo.setNoodleImage(s);
             noodleAppListVo.setNoodleId(noodle.getId());
             noodleAppListVo.setNoodleName(noodle.getNoodleName());
+            noodleAppListVo.setCategoryName(categoryName);
             noodleAppListVos.add(noodleAppListVo);
             if (categoryId == null) {
                 throw new IllegalArgumentException("分类Id不能为空");
@@ -148,7 +149,7 @@ public class NoodleController {
                 throw new ResourceNotFoundException("分类id不存在");
             }
             resultAppVo.setCategoryId(categoryId);
-            resultAppVo.setCategoryName(categoryName);
+           // resultAppVo.setCategoryName(categoryName);
         }
         Boolean isEnd = noodles.size() < pageSize;
         resultAppVo.setData(noodleAppListVos);

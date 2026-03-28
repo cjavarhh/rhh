@@ -16,5 +16,6 @@ public class NoodleListVo {
     private BigInteger noodleId;
     private String noodleImage;
     private  String noodleName;
+    private String categoryName;
    // private Integer price;
 }
