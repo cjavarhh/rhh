@@ -122,8 +122,47 @@ public class NoodleController {
         return categoryInfoVos;
     }
     @RequestMapping("/app/noodle/List")
-    public List<Noodle>listNoodle(@RequestParam(required = false) String Keyword,@RequestParam(name = "offset") Integer offset){
-        if (!StringUtils.hasText(Keyword)){
+    public ResultAppVo listNoodle(@RequestParam(required = false) String Keyword,@RequestParam(name = "page") Integer page){
+        Integer pageSize = 2;
+        Integer offset = (page - 1) * pageSize;
+        List<Noodle> noodles = noodleService.searchNoodle(Keyword, offset, pageSize);
+        ArrayList<NoodleListVo> noodleAppListVos = new ArrayList<>();
+        ResultAppVo resultAppVo = new ResultAppVo();
+        for (Noodle noodle:noodles){
+            Long categoryId = noodle.getCategoryId();
+            Category categoryInfo = categoryService.getById(categoryId);
+            String categoryName = categoryInfo.getCategoryName();
+            NoodleListVo noodleAppListVo = new NoodleListVo();
+            String coverImages = noodle.getCoverImages();
+            String[] split = coverImages.split("\\$");
+            String s = split[0];
+            noodleAppListVo.setNoodleImage(s);
+            noodleAppListVo.setNoodleId(noodle.getId());
+            noodleAppListVo.setNoodleName(noodle.getNoodleName());
+            noodleAppListVos.add(noodleAppListVo);
+            if (categoryId == null) {
+                throw new IllegalArgumentException("分类Id不能为空");
+            }
+            int i = categoryService.selectJudgeId(categoryId);
+            if (i == 0) {
+                throw new ResourceNotFoundException("分类id不存在");
+            }
+            resultAppVo.setCategoryId(categoryId);
+            resultAppVo.setCategoryName(categoryName);
+        }
+        Boolean isEnd = noodles.size() < pageSize;
+        resultAppVo.setData(noodleAppListVos);
+        resultAppVo.setIsEnd(isEnd);
+        return resultAppVo;
+        }
+
+
+
+
+
+
+  /*  }
+       if (!StringUtils.hasText(Keyword)){
             throw new IllegalArgumentException("不存在");
         }
         Integer pagSize=2;
@@ -131,5 +170,6 @@ public class NoodleController {
         return noodles;
 
 
-    }
+    }*/
+
 }

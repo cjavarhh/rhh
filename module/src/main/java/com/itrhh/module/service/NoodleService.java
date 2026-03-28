@@ -184,9 +184,9 @@ public class NoodleService {
 
     //优化后子查询
     public List<Noodle> searchNoodle(String keyword, Integer offset, Integer pageSize) {
-/*        if (!StringUtils.hasText(keyword)) {
+        if (!StringUtils.hasText(keyword)) {
             return mapper.findByKeywordForApp("", "", offset, pageSize);
-        }*/
+        }
         List<Integer> categoryIdList = categoryMapper.selectEnableIdsByKeyword(keyword);
         //拼接id列表为字符串123
         String categoryIds = "";
@@ -195,14 +195,6 @@ public class NoodleService {
                     .map(String::valueOf)
                     .collect(Collectors.joining(","));
         }
-
-        List<Noodle> byKeywordForApp = mapper.findByKeywordForApp(keyword, categoryIds, offset, pageSize);
-        for (Noodle noodle:byKeywordForApp){
-            Category category = categoryMapper.getById(noodle.getCategoryId());
-            if (category!=null){
-                noodle.setCategoryName(category.getCategoryName());
-            }
-        }
-        return byKeywordForApp;
+        return mapper.findByKeywordForApp(keyword,categoryIds,offset,pageSize);
     }
 }
