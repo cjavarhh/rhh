@@ -3,15 +3,10 @@ package com.itrhh.app.controller;
 import com.github.pagehelper.PageInfo;
 import com.itrhh.app.domain.*;
 import com.itrhh.module.config.ResourceNotFoundException;
-import com.itrhh.module.domin.NoodleVo;
 import com.itrhh.module.entity.Category;
 import com.itrhh.module.entity.Noodle;
-import com.itrhh.module.mapper.CategoryMapper;
-import com.itrhh.module.mapper.NoodleMapper;
 import com.itrhh.module.service.CategoryService;
 import com.itrhh.module.service.NoodleService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -92,14 +87,14 @@ public class NoodleController {
             noodleAppListVo.setNoodleId(noodle.getId());
             noodleAppListVo.setNoodleName(noodle.getNoodleName());
             noodleAppListVos.add(noodleAppListVo);
-                if (categoryId == null) {
-                    throw new IllegalArgumentException("分类Id不能为空");
-                }
-                int i = categoryService.selectJudgeId(categoryId);
-                if (i == 0) {
-                    throw new ResourceNotFoundException("分类id不存在");
-                }
-                resultAppVo.setCategoryId(categoryId);
+            if (categoryId == null) {
+                throw new IllegalArgumentException("分类Id不能为空");
+            }
+            int i = categoryService.selectJudgeId(categoryId);
+            if (i == 0) {
+                throw new ResourceNotFoundException("分类id不存在");
+            }
+            resultAppVo.setCategoryId(categoryId);
             //resultAppVo.setCategoryName(categoryName);
         }
         Boolean isEnd = allNoodleInfo.size() < pageSize;
@@ -109,7 +104,7 @@ public class NoodleController {
     }
 
     @RequestMapping("/category/list")
-    public List< CategoryInfoVo> categoryAll() {
+    public List<CategoryInfoVo> categoryAll() {
         List<Category> categoryAll = categoryService.getAllCategoryInfo();
         ArrayList<CategoryInfoVo> categoryInfoVos = new ArrayList<>();
         for (Category category : categoryAll) {
@@ -121,14 +116,15 @@ public class NoodleController {
         }
         return categoryInfoVos;
     }
+
     @RequestMapping("/app/noodle/List")
-    public ResultAppVo listNoodle(@RequestParam(required = false) String Keyword,@RequestParam(name = "page") Integer page){
+    public ResultAppVo listNoodle(@RequestParam(required = false) String Keyword, @RequestParam(name = "page") Integer page) {
         Integer pageSize = 2;
         Integer offset = (page - 1) * pageSize;
         List<Noodle> noodles = noodleService.searchNoodle(Keyword, offset, pageSize);
         ArrayList<NoodleListVo> noodleAppListVos = new ArrayList<>();
         ResultAppVo resultAppVo = new ResultAppVo();
-        for (Noodle noodle:noodles){
+        for (Noodle noodle : noodles) {
             Long categoryId = noodle.getCategoryId();
             Category categoryInfo = categoryService.getById(categoryId);
             String categoryName = categoryInfo.getCategoryName();
@@ -140,37 +136,33 @@ public class NoodleController {
             noodleAppListVo.setNoodleId(noodle.getId());
             noodleAppListVo.setNoodleName(noodle.getNoodleName());
             noodleAppListVo.setCategoryName(categoryName);
-            noodleAppListVos.add(noodleAppListVo);
+            //noodleAppListVos.add(noodleAppListVo);
             if (categoryId == null) {
                 throw new IllegalArgumentException("分类Id不能为空");
             }
             int i = categoryService.selectJudgeId(categoryId);
             if (i == 0) {
                 throw new ResourceNotFoundException("分类id不存在");
+
             }
-            resultAppVo.setCategoryId(categoryId);
-           // resultAppVo.setCategoryName(categoryName);
+            noodleAppListVo.setCategoryId(categoryId);
+            noodleAppListVos.add(noodleAppListVo);
         }
         Boolean isEnd = noodles.size() < pageSize;
         resultAppVo.setData(noodleAppListVos);
         resultAppVo.setIsEnd(isEnd);
         return resultAppVo;
-        }
+    }
 
-
-
-
-
-
-  /*  }
-       if (!StringUtils.hasText(Keyword)){
-            throw new IllegalArgumentException("不存在");
-        }
-        Integer pagSize=2;
-        List<Noodle> noodles = noodleService.searchNoodle(Keyword, offset, pagSize);
-        return noodles;
-
-
-    }*/
 
 }
+
+
+
+
+
+
+
+
+
+
