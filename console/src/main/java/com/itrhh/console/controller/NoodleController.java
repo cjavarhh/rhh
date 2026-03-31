@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -43,7 +44,7 @@ public class NoodleController {
 
     @RequestMapping("/noodle/create")
     public ResponseEntity<?> noodleCreate(@RequestParam(name = "noodleName") String noodleName,
-                                          @RequestParam(name = "price") Integer price,
+                                          @RequestParam(name = "price") BigDecimal price,
                                           @RequestParam(name = "weight") Integer weight,
                                           @RequestParam(name = "coverImages") String coverImages,
                                           @RequestParam(name = "content") String content,
@@ -65,7 +66,7 @@ public class NoodleController {
     @RequestMapping("/noodle/update")
     public ResponseEntity<?> noodleUpdate(@RequestParam(name = "noodleId") BigInteger noodleId,
                                           @RequestParam(name = "noodleName") String noodleName,
-                                          @RequestParam(name = "price") Integer price,
+                                          @RequestParam(name = "price") BigDecimal price,
                                           @RequestParam(name = "weight") Integer weight,
                                           @RequestParam(name = "coverImages") String coverImages,
                                           @RequestParam(name = "content") String content,

@@ -2,6 +2,7 @@ package com.itrhh.console.domain;
 
 import lombok.Data;
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 
 /**
@@ -16,6 +17,6 @@ public class NoodleListVo {
     private BigInteger noodleId;
     private String noodleImage;
     private String noodleName;
-    private Integer price;
+    private BigDecimal price;
 
 }
