@@ -7,6 +7,8 @@ import com.itrhh.module.entity.Category;
 import com.itrhh.module.entity.Noodle;
 import com.itrhh.module.service.CategoryService;
 import com.itrhh.module.service.NoodleService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -26,10 +28,13 @@ import java.util.List;
  */
 @RestController
 public class NoodleController {
+    //定义日志对象
+
     @Resource
     private NoodleService noodleService;
     @Resource
     private CategoryService categoryService;
+    private static final Logger log= LoggerFactory.getLogger(NoodleController.class);
 
 
     @RequestMapping("/noodle/info")
@@ -37,18 +42,18 @@ public class NoodleController {
         Noodle noodleInfoById = noodleService.getNoodleInfoById(noodleId);
         NoodleInfoVo noodleInfoVo = new NoodleInfoVo();
         if (noodleInfoById == null) {
-            System.out.println("没有拿到指定的id");
+            log.info("没有拿到指定的id");
             return null;
         }
         String coverImages = noodleInfoById.getCoverImages();
         String[] split = coverImages.split("\\$");
         Long cid = noodleInfoById.getCategoryId();
         if (cid == null) {
-            throw new IllegalArgumentException("分类Id不能为空");
+            log.info("分类Id不能为空");
         }
         int i = categoryService.selectJudgeId(cid);
         if (i == 0) {
-            throw new ResourceNotFoundException("分类id不存在");
+            log.info("分类id不存在");
         }
         Category category = categoryService.getById(cid);
         String categoryImage = category.getCategoryImage();
@@ -69,12 +74,10 @@ public class NoodleController {
                                  @RequestParam(value = "keyword", required = false) String keyword) {
         Integer pageSize = 2;
         Integer offset = (page - 1) * pageSize;
-        //PageInfo<Noodle> noodleList = noodleService.getNoodleList(page, pageSize, keyword);
         PageInfo<Noodle> byNoodleOrCategory = noodleService.findByNoodleOrCategory(page, offset, keyword);
         List<Noodle> allNoodleInfo = byNoodleOrCategory.getList();
         ArrayList<NoodleListVo> noodleAppListVos = new ArrayList<>();
         ResultAppVo resultAppVo = new ResultAppVo();
-
         for (Noodle noodle : allNoodleInfo) {
             Long categoryId = noodle.getCategoryId();
             Category categoryInfo = categoryService.getById(categoryId);
@@ -88,14 +91,13 @@ public class NoodleController {
             noodleAppListVo.setNoodleName(noodle.getNoodleName());
             noodleAppListVos.add(noodleAppListVo);
             if (categoryId == null) {
-                throw new IllegalArgumentException("分类Id不能为空");
+                log.info("分类Id不能为空");
             }
             int i = categoryService.selectJudgeId(categoryId);
             if (i == 0) {
-                throw new ResourceNotFoundException("分类id不存在");
+                log.info("分类id不存在");
             }
             resultAppVo.setCategoryId(categoryId);
-            //resultAppVo.setCategoryName(categoryName);
         }
         Boolean isEnd = allNoodleInfo.size() < pageSize;
         resultAppVo.setData(noodleAppListVos);
@@ -103,19 +105,6 @@ public class NoodleController {
         return resultAppVo;
     }
 
-    @RequestMapping("/category/list")
-    public List<CategoryInfoVo> categoryAll() {
-        List<Category> categoryAll = categoryService.getAllCategoryInfo();
-        ArrayList<CategoryInfoVo> categoryInfoVos = new ArrayList<>();
-        for (Category category : categoryAll) {
-            CategoryInfoVo categoryInfoVo = new CategoryInfoVo();
-            categoryInfoVo.setCategoryImage(category.getCategoryImage());
-            categoryInfoVo.setCategoryName(category.getCategoryName());
-            categoryInfoVo.setCId(category.getId());
-            categoryInfoVos.add(categoryInfoVo);
-        }
-        return categoryInfoVos;
-    }
 
     @RequestMapping("/app/noodle/List")
     public ResultAppVo listNoodle(@RequestParam(required = false) String Keyword, @RequestParam(name = "page") Integer page) {
@@ -138,11 +127,11 @@ public class NoodleController {
             noodleAppListVo.setCategoryName(categoryName);
             //noodleAppListVos.add(noodleAppListVo);
             if (categoryId == null) {
-                throw new IllegalArgumentException("分类Id不能为空");
+                log.info("分类Id不能为空");
             }
             int i = categoryService.selectJudgeId(categoryId);
             if (i == 0) {
-                throw new ResourceNotFoundException("分类id不存在");
+                log.info("分类id不存在");
 
             }
             noodleAppListVo.setCategoryId(categoryId);
@@ -153,8 +142,6 @@ public class NoodleController {
         resultAppVo.setIsEnd(isEnd);
         return resultAppVo;
     }
-
-
 }
 
 

@@ -86,14 +86,14 @@ public class NoodleController {
     public String noodleDelete(@RequestParam(name = "noodleId") BigInteger noodleId) {
         Noodle noodleInfoById = noodleService.getNoodleInfoById(noodleId);
         Long cid = noodleInfoById.getCategoryId();
-            if (cid == null) {
-                throw new IllegalArgumentException("分类Id不能为空");
-            }
-            int i = categoryService.selectJudgeId(cid);
-            if (i == 0) {
-                throw new ResourceNotFoundException("分类id不存在");
-            }
-            categoryService.delete(cid);
+        if (cid == null) {
+            throw new IllegalArgumentException("分类Id不能为空");
+        }
+        int i = categoryService.selectJudgeId(cid);
+        if (i == 0) {
+            throw new ResourceNotFoundException("分类id不存在");
+        }
+        categoryService.delete(cid);
         int result = noodleService.deleteNoodle(noodleId);
         return 1 == result ? "成功" : "失败";
     }
@@ -129,8 +129,8 @@ public class NoodleController {
                                             @RequestParam(value = "keyword", required = false) String keyword) {
         Integer pageSize = 2;
         Integer offset = (page - 1) * pageSize;
-       // List<Noodle> allNoodleInfo = noodleService.getAllNoodleInfo(offset, pageSize);
-       PageInfo<Noodle> noodleVoPageInfo = noodleService.selectByNoodleOrCategory(offset,page,keyword);
+        // List<Noodle> allNoodleInfo = noodleService.getAllNoodleInfo(offset, pageSize);
+        PageInfo<Noodle> noodleVoPageInfo = noodleService.selectByNoodleOrCategory(offset, page, keyword);
         // PageInfo<NoodleVo> noodleVoPageInfo = noodleService.selectByNoodleOrCategory(page, keyword);
         List<Noodle> allNoodleInfo = noodleVoPageInfo.getList();
         ArrayList<NoodleListVo> noodleAppListVos = new ArrayList<>();
@@ -160,63 +160,4 @@ public class NoodleController {
         resultConsoleVo.setTotal(allNoodleInfo.size());
         return resultConsoleVo;
     }
-
-
-
-
-
-
-
-/*    @RequestMapping("/noodle/edit")
-    public BigInteger editCreat (@RequestParam(name = "id") BigInteger id,
-                          @RequestParam(name = "noodleName") String noodleName,
-                          @RequestParam(name = "price") Integer price,
-                          @RequestParam(name = "weight") Integer weight,
-                          @RequestParam(name = "coverImages") String coverImages,
-                          @RequestParam(name = "content") String content){
-        String nameTrim = noodleName.trim();
-        try {
-            BigInteger edit = noodleService.edit(id, noodleName, price, content, weight, coverImages);
-
-        }catch (Exception e){
-            return e.getMessage();
-        }
-
-
-        return  id;
-    }*/
-
-/*    @RequestMapping("/noodle/editInsert")
-    public ResponseEntity<?> editCreat(@RequestParam(name = "noodleName") String noodleName,
-                                       @RequestParam(name = "price") Integer price,
-                                       @RequestParam(name = "weight") Integer weight,
-                                       @RequestParam(name = "coverImages") String coverImages,
-                                       @RequestParam(name = "content") String content) {
-        String nameTrim = noodleName.trim();
-        try {
-
-            BigInteger id = noodleService.edit(null, noodleName, price, content, weight, coverImages);
-            return ResponseEntity.ok(id);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-
-        }
-    }
-
-    @RequestMapping("noodle/editUpdate")
-    public ResponseEntity<?> editUpdate(@RequestParam(name = "id") BigInteger id,
-                                        @RequestParam(name = "noodleName") String noodleName,
-                                        @RequestParam(name = "price") Integer price,
-                                        @RequestParam(name = "weight") Integer weight,
-                                        @RequestParam(name = "coverImages") String coverImages,
-                                        @RequestParam(name = "content") String content) {
-        String trim = noodleName.trim();
-        BigInteger edit = noodleService.edit(id, noodleName, price, content, weight, coverImages);
-        try {
-            BigInteger editUpdate = noodleService.edit(id, noodleName, price, content, weight, coverImages);
-            return ResponseEntity.ok(id);
-        } catch (Exception e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
-    }*/
 }

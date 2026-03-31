@@ -17,6 +17,7 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -47,7 +48,7 @@ public class NoodleService {
     }
 
 
-    public int createNoodle(String name, Integer price, String content, Integer weight, String coverImages) {
+    public int createNoodle(String name, BigDecimal price, String content, Integer weight, String coverImages) {
         int timestamp = (int) (System.currentTimeMillis() / 100);
         Noodle noodle = new Noodle();
         noodle.setNoodleName(name);
@@ -62,7 +63,7 @@ public class NoodleService {
 
     }
 
-    public int updateNoodle(BigInteger id, String name, Integer price, String content, Integer weight, String coverImages) {
+    public int updateNoodle(BigInteger id, String name, BigDecimal price, String content, Integer weight, String coverImages) {
         int timestamp = (int) (System.currentTimeMillis() / 100);
         Noodle noodle = new Noodle();
         noodle.setId(id);
@@ -116,7 +117,7 @@ public class NoodleService {
 
     //合并新增修改方法
     @Transactional
-    public BigInteger edit(BigInteger noodleId, String noodleName, Integer price, String content, Integer weight, String coverImages, Long categoryId) {
+    public BigInteger edit(BigInteger noodleId, String noodleName, BigDecimal price, String content, Integer weight, String coverImages, Long categoryId) {
         //判断参数是否合法
         NoodleJudgment.validateEntity(noodleName, coverImages, price);
         //校验分类id是否存在数据库

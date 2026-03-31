@@ -4,6 +4,7 @@ import lombok.Data;
 import lombok.experimental.Accessors;
 
 
+import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.util.List;
 
@@ -25,9 +26,9 @@ public class Noodle {
 
     private String noodleName;
 
-    private Integer price;
+    private BigDecimal price;
 
-    private String noodleImage;
+   // private String noodleImage;
 
     private String content;
 
@@ -43,7 +44,7 @@ public class Noodle {
 
     private Long categoryId;
 
-    private String CategoryName;
+   // private String CategoryName;
 
 
 }

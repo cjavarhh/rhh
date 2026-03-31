@@ -18,9 +18,7 @@ public class ExceptionConfig {
     public String handleException(Exception e){
         Logger logger = LoggerFactory.getLogger(handleException(e).getClass());
         logger.error("系统发生异常");
-        return  e.getMessage();
-
-
+        return "服务器繁忙，请稍后重试";
     }
 
 }

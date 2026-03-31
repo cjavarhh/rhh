@@ -1,5 +1,7 @@
 package com.itrhh.module.utils;
 
+import java.math.BigDecimal;
+
 /**
  * @Classname NoodleJudgmen
  * @Description TODO
@@ -9,7 +11,7 @@ package com.itrhh.module.utils;
  */
 public class NoodleJudgment {
 
-    public static void validateEntity(String noodleName, String coverImages, Integer price) {
+    public static void validateEntity(String noodleName, String coverImages, BigDecimal price) {
 /*        Optional<Noodle> optional = Optional.ofNullable(noodle);
         if (optional.isPresent()) {
             throw new NullPointerException("空指针异常");
@@ -17,7 +19,7 @@ public class NoodleJudgment {
         if (noodleName == null || noodleName.isEmpty()) {
             throw new RuntimeException("字段不能为空");
         }
-        if (price ==null || price==0){
+        if (price ==null ||price.equals(BigDecimal.ZERO)){
             throw new RuntimeException("数字不合规");
         }
         if (coverImages ==null || coverImages.isEmpty()){
